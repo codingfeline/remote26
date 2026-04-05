@@ -6,7 +6,7 @@ interface Props {
   func?: () => void
 }
 
-const Iconner = ({ Icon, func }: Props) => {
+const WrIcon = ({ Icon, func }: Props) => {
   return (
     <div
       className={`text-2xl  ${func ? 'text-gray-500 hover:text-violet-700 cursor-pointer' : 'text-gray-700'}`}
@@ -16,4 +16,4 @@ const Iconner = ({ Icon, func }: Props) => {
   )
 }
 
-export default Iconner
+export default WrIcon
