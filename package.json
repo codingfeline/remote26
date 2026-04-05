@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "set PORT=2026 && set browser=NONE&& next dev -H 0.0.0.0",
+    "dev2": "PORT=2026 browser=NONE next dev -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
