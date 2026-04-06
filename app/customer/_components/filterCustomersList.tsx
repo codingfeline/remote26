@@ -12,14 +12,16 @@ interface names {
 
 interface Prop {
   names: names[]
+  requireSearch?: boolean
 }
 
-const FilterCustomers = ({ names }: Prop) => {
+const FilterCustomersList = ({ names, requireSearch }: Prop) => {
   const [searchTerm, setSearchTerm] = useState('')
 
   const filtered = names.filter(t =>
     t.name.toLowerCase().includes(searchTerm.toLowerCase()),
   )
+  const showList = requireSearch ? searchTerm !== '' : true
 
   return (
     <div>
@@ -37,17 +39,18 @@ const FilterCustomers = ({ names }: Prop) => {
             </TextField.Root>
           </Box>
 
-          {filtered.map(t => (
-            <div key={t.id}>
-              <Flex my="1" wrap="nowrap">
-                <ButtonIcon href={`/customer/${t.id}`}>{t.name}</ButtonIcon>
-              </Flex>
-            </div>
-          ))}
+          {showList &&
+            filtered.map(t => (
+              <div key={t.id}>
+                <Flex my="1" wrap="nowrap">
+                  <ButtonIcon href={`/customer/${t.id}`}>{t.name}</ButtonIcon>
+                </Flex>
+              </div>
+            ))}
         </Container>
       </Flex>
     </div>
   )
 }
 
-export default FilterCustomers
+export default FilterCustomersList

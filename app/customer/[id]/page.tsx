@@ -1,7 +1,7 @@
 import { BackButton } from '@/app/components'
 import ButtonIcon from '@/app/components/ButtonIcon'
-import CustomerList from '@/app/components/CustomerList'
 import MainPage from '@/app/components/MainPage'
+import CustomerList from '@/app/customer/_components/CustomerFilterList'
 import prisma from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import Contact from '../_components/Contact'
@@ -20,9 +20,9 @@ const page = async ({ params }: Props) => {
 
   return (
     <MainPage>
-      <div className="grid grid-cols-[250px_1fr] ">
+      <div className="grid md:grid-cols-[250px_1fr] grid-cols-1 ">
         <div className="border-r overflow-y-auto min-h- bg-gray-100 p-2">
-          <CustomerList />
+          <CustomerList requireSearch={true} />
         </div>
         <div className=" p-6 overflow-y-auto min-h-0 ">
           <ButtonIcon href="/" Icon={BackButton}>
