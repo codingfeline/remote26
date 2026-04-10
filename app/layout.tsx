@@ -19,8 +19,8 @@ const geistSans = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'NextNazs',
-  description: 'Web Journals',
+  title: 'Remote CMS',
+  description: 'Web-based content management system',
 }
 
 export default function RootLayout({
