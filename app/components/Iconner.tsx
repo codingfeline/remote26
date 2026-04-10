@@ -1,17 +1,25 @@
 import { IconProps } from '@radix-ui/themes'
+import Link from 'next/link'
 import { ComponentType } from 'react'
 
 interface Props {
   Icon: ComponentType<IconProps>
   func?: () => void
+  href?: string
 }
 
-const WrIcon = ({ Icon, func }: Props) => {
+const WrIcon = ({ Icon, func, href }: Props) => {
   return (
     <div
       className={`text-2xl  ${func ? 'text-gray-500 hover:text-violet-700 cursor-pointer' : 'text-gray-700'}`}
     >
-      {<Icon onClick={func} />}
+      {href ? (
+        <Link href={href}>
+          <Icon />
+        </Link>
+      ) : (
+        <Icon onClick={func} />
+      )}
     </div>
   )
 }
