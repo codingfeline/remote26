@@ -8,39 +8,44 @@ import ItemContainer from './ItemContainer'
 
 interface Props {
   method?: MethodModel[]
+  cid: string
 }
 
-const MethodInfo = ({ method }: Props) => {
+const MethodInfo = ({ method, cid }: Props) => {
   const { copy: handleCopy } = useCopyToClipboard()
   if (!method) return
 
   return (
     <section className="compo">
       <ItemContainer title="Method Info">
-        {method.map(m => (
-          <div key={m.id} className="border rounded-xl p-4 shadow-sm">
-            <Iconner Icon={Pencil} />
-            <p>
-              <strong>Name:</strong> {m.methodName}
-            </p>
-            <p>
-              <strong>URL:</strong>
-              {m.url}
+        {method.map(m => {
+          const link = `/customer/${cid}/method/${m.id}`
 
-              <Iconner Icon={Copy} func={() => handleCopy(m.url)} />
-            </p>
-            <p>
-              <strong>Username:</strong> {m.username}
-            </p>
-            <p>
-              <strong>Password:</strong> {m.password}
-              <Iconner Icon={Copy} func={() => handleCopy(m.password)} />
-            </p>
-            <p>
-              <strong>Notes:</strong> {m.notes}
-            </p>
-          </div>
-        ))}
+          return (
+            <div key={m.id} className="border rounded-xl p-4 shadow-sm">
+              <Iconner href={link} Icon={Pencil} />
+              <p>
+                <strong>Name:</strong> {m.methodName}
+              </p>
+              <p>
+                <strong>URL:</strong>
+                {m.url}
+
+                <Iconner Icon={Copy} func={() => handleCopy(m.url)} />
+              </p>
+              <p>
+                <strong>Username:</strong> {m.username}
+              </p>
+              <p>
+                <strong>Password:</strong> {m.password}
+                <Iconner Icon={Copy} func={() => handleCopy(m.password)} />
+              </p>
+              <p>
+                <strong>Notes:</strong> {m.notes}
+              </p>
+            </div>
+          )
+        })}
       </ItemContainer>
     </section>
   )
