@@ -3,20 +3,29 @@ import ButtonIcon from '@/app/components/ButtonIcon'
 import MainPage from '@/app/components/MainPage'
 import CustomerList from '@/app/customer/_components/CustomerFilterList'
 import prisma from '@/lib/prisma'
+import type { Metadata } from 'next'
+
 import { notFound } from 'next/navigation'
 import Contact from '../_components/Contact'
 import MethodInfo from '../_components/methodInfo'
 
-interface Props {
-  params: Promise<{ id: string }> // * making this a Promise to await below (await params)
+export interface ParamProps {
+  params: Promise<{ id: string; mid?: string }> // * making this a Promise to await below (await params)
 }
 
-const page = async ({ params }: Props) => {
+export const metadata: Metadata = {
+  title: 'Customer Details -- Remote CMS',
+  description: 'Web-based content management system',
+}
+
+const page = async ({ params }: ParamProps) => {
   if ((await params).id.length !== 24) notFound()
+  const cid = (await params).id
   const customer = await prisma.customer!.findUnique({
-    where: { id: (await params).id },
+    where: { id: cid },
   })
   if (!customer) notFound()
+  const { methodInfo: method, contact } = customer
 
   return (
     <MainPage>
@@ -34,13 +43,10 @@ const page = async ({ params }: Props) => {
               <h1 className="text-2xl font-bold">{customer.name}</h1>
               <p className="text-gray-600">Solution: {customer.solution}</p>
             </div>
-
-            {customer.methodInfo.length > 0 && (
-              <MethodInfo method={customer.methodInfo} />
-            )}
-
-            {customer.contact.length > 0 && <Contact contact={customer.contact} />}
-
+            {cid}
+            {'ff '}
+            {method.length > 0 && <MethodInfo cid={cid} method={customer.methodInfo} />}
+            {contact.length > 0 && <Contact contact={customer.contact} />}
             {/* Servers */}
             <section>
               <h2 className="text-xl font-semibold mb-2">Servers</h2>
@@ -63,7 +69,6 @@ const page = async ({ params }: Props) => {
                 ))}
               </div>
             </section>
-
             {/* Device Passwords */}
             <section>
               <h2 className="text-xl font-semibold mb-2">Device Passwords</h2>
@@ -83,7 +88,6 @@ const page = async ({ params }: Props) => {
                 ))}
               </div>
             </section>
-
             {/* Server Setup */}
             <section>
               <h2 className="text-xl font-semibold mb-2">Solution Setup</h2>
