@@ -1,3 +1,7 @@
+import { BackButton } from '@/app/components'
+import ButtonIcon from '@/app/components/ButtonIcon'
+import MainPage from '@/app/components/MainPage'
+import MethodForm from '@/app/customer/_components/MethodForm'
 import { notFound } from 'next/navigation'
 import { ParamProps } from '../../page'
 
@@ -8,16 +12,45 @@ import { ParamProps } from '../../page'
 const EditMethod = async ({ params }: ParamProps) => {
   if ((await params).id.length !== 24) notFound()
   if ((await params).mid?.length !== 24) notFound()
+  // const methodProps = await prisma.customer.findUnique({
+  //   where: { id: (await params).id },
+  //   select: {
+  //     id: true,
+  //     name: true,
+  //     methodInfo: {
+  //       where: { id: (await params).mid },
+  //       select: {
+  //         methodName: true,
+  //         url: true,
+  //         username: true,
+  //         password: true,
+  //         notes: true,
+  //       },
+  //     },
+  //   },
+  // })
 
   const { id, mid } = await params
-
+  // console.log(methodProps)
+  // const custLink = `/customer/${id}`
+  // const methodLink = `${custLink}/method/${mid}`
   return (
-    <div>
+    <MainPage>
+      {/* <Link href={custLink} className="text-sm text-gray-500 hover:text-violet-700">
+        {`Customer`}
+      </Link>{' '}
+      /{' '}
+      <Link href={methodLink} className="text-sm text-gray-500 hover:text-violet-700">
+        {methodLink}
+      </Link> */}
+      <ButtonIcon href={`/customer/${id}`} Icon={BackButton}>
+        Back
+      </ButtonIcon>
       {/* {await params} */}
       <h1>Edit Method</h1>
-      <p>Customer ID: {id}</p>
       <p>Method ID: {mid}</p>
-    </div>
+      <MethodForm id={id} name={`name`} />
+    </MainPage>
   )
 }
 
