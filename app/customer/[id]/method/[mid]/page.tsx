@@ -1,7 +1,6 @@
 import { BackButton } from '@/app/components'
 import ButtonIcon from '@/app/components/ButtonIcon'
 import MainPage from '@/app/components/MainPage'
-import MethodForm from '@/app/customer/_components/MethodForm'
 import { notFound } from 'next/navigation'
 import { ParamProps } from '../../page'
 
@@ -49,7 +48,7 @@ const EditMethod = async ({ params }: ParamProps) => {
       {/* {await params} */}
       <h1>Edit Method</h1>
       <p>Method ID: {mid}</p>
-      <MethodForm id={id} name={`name`} />
+      {/* <MethodForm id={id} name={`name`} /> */}
     </MainPage>
   )
 }
