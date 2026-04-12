@@ -44,7 +44,7 @@ const page = async ({ params }: ParamProps) => {
               <p className="text-gray-600">Solution: {customer.solution}</p>
             </div>
             {cid}
-            {'ff '}
+
             {method.length > 0 && <MethodInfo cid={cid} method={customer.methodInfo} />}
             {contact.length > 0 && <Contact contact={customer.contact} />}
             {/* Servers */}
