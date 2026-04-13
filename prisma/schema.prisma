@@ -89,6 +89,7 @@ model Customer {
   server         Server[]
   devicePassword DevicePassword[]
   serverSetup    SolutionSetup[]
+  deviceSetup    DeviceSetup[]
 }
 
 type MethodInfo {
@@ -123,6 +124,13 @@ type DevicePassword {
 }
 
 type SolutionSetup {
+  id         String @map("_id") @db.ObjectId
+  comment    String
+  screenshot String
+  path       String
+}
+
+type DeviceSetup {
   id         String @map("_id") @db.ObjectId
   comment    String
   screenshot String
