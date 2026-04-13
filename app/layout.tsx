@@ -9,6 +9,7 @@ import BottomLogo from './components/bottomLogo'
 import ClientProviders from './components/ClientProviders'
 import ToastProvider from './components/ToastProvider'
 import './globals.css'
+import MyFancyLogComp from './hooks/MyFancyLogComp'
 import QueryClientProvider from './QueryClientProvider'
 import './theme-config.css'
 
@@ -41,6 +42,11 @@ export default function RootLayout({
                 {children}
                 {/* <AnalyticsConsent /> */}
                 <BottomLogo />
+                <MyFancyLogComp
+                  txt="Remote-CMS by N Sharid"
+                  back="#134d7c"
+                  colour="#e0ca69"
+                />
                 <AppFooter />
               </Theme>
             </CookieConsentProvider>
