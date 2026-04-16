@@ -6,10 +6,13 @@ import { MethodInfoSchema } from './schema';
 export async function PATCH(req: NextRequest, { params }: { params: { id: string, mid: string } }) {
   try {
     const body = await req.json();
+
+    // validate input
     const data = MethodInfoSchema.parse(body);
 
     const { id, mid } = params
 
+    // get existing customer
     const customer = await prisma.customer.findUnique({
       where: { id: id },
     });
@@ -18,6 +21,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
+    // update method info
     const updatedMethod = customer.methodInfo.map((method) => {
       if (method.id === mid) {
         return {
@@ -28,8 +32,9 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       return method;
     })
 
+    // save entire array
     await prisma.customer.update({
-      where: { id: id },
+      where: { id },
       data: {
         methodInfo: updatedMethod,
       },
