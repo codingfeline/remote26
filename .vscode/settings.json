@@ -1,4 +1,14 @@
 {
+  "rest-client.environmentVariables": {
+
+    "$shared": {
+    },
+    "Local Env": {
+      "url-26": "http://localhost:2026",
+      "url-26-cust": "http://localhost:2026/api/cust",
+      "url-26-method": "http://localhost:2026/api/method",
+    }
+  },
   "workbench.colorCustomizations": {
     // The background of the thin vertical bar
     "activityBar.background": "#3b850b", 
