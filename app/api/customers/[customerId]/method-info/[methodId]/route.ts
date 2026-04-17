@@ -1,20 +1,20 @@
 import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { MethodInfoSchema } from '../schema';
+import { MethodInfoSchema } from '../../../../schema';
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string, mid: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ customerId: string, methodId: string }> }) {
   try {
     const body = await req.json();
 
     // validate input
     const data = MethodInfoSchema.parse(body);
 
-    const { id, mid } = params
+    const { customerId, methodId } = await params
 
     // get existing customer
     const customer = await prisma.customer.findUnique({
-      where: { id: id },
+      where: { id: customerId },
     });
 
     if (!customer) {
@@ -23,7 +23,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
     // update method info
     const updatedMethod = customer.methodInfo.map((method) => {
-      if (method.id === mid) {
+      if (method.id === methodId) {
         return {
           ...method,
           ...data,
@@ -34,7 +34,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
     // save entire array
     await prisma.customer.update({
-      where: { id },
+      where: { id: customerId },
       data: {
         methodInfo: updatedMethod,
       },
