@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { MethodInfoSchema } from './schema';
+import { MethodInfoSchema } from '../schema';
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string, mid: string } }) {
   try {
