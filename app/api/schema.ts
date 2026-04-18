@@ -7,3 +7,8 @@ export const MethodInfoSchema = z.object({
   password: z.string().optional(),
   notes: z.string().optional(),
 });
+
+export type Params = Promise<{ customerId: string }>;
+
+export type CustIDProp = { params: Params }
+export type MethodIdProp = { params: Promise<{ customerId: string, methodId: string }> }
