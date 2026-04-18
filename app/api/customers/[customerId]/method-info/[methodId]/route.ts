@@ -1,9 +1,9 @@
 import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { MethodInfoSchema } from '../../../../schema';
+import { MethodIdProp, MethodInfoSchema } from '../../../../schema';
 
-export async function PATCH(req: NextRequest, { params }: { params: Promise<{ customerId: string, methodId: string }> }) {
+export async function PATCH(req: NextRequest, { params }: MethodIdProp) {
   try {
     const body = await req.json();
 
