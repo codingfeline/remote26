@@ -1,0 +1,144 @@
+get {{url-remote2}}
+###
+get {{url-remote-sol}}
+###
+post {{url-remote2}}
+Content-Type: application/json
+
+{
+  "name": "cust z",
+  "solution": "NewSolution2"
+}
+###
+post {{url-remote-sol}}
+Content-Type: application/json
+
+{
+  "name": "NewSolution2"
+}
+###
+get {{url-remote2}}/60858a3dbf27ce642cb6822c/
+###
+get {{url-remote2}}/nameId
+###
+get {{url-remote-sol}}/64fe2463681db33f4cb5ebb1
+###
+put {{url-remote-sol}}/64fe2463681db33f4cb5ebb1
+Content-Type: application/json
+
+{
+  "name": "cust z"
+}
+###
+delete {{url-remote-sol}}/64fe2463681db33f4cb5ebb1
+###
+get {{url-remote2}}/60858a3dbf27ce642cb6822c/64cf7d954116fa3fd480844b/findOneMethod
+###
+get {{url-remote2}}/609e0c61f3bb853bb88107a1/64e91b5f202bb54274560f0f/findScanFolder
+###
+get {{url-remote2}}/60ab31212e39ce21849b2257/64d7b537e93d715704942f9b/findOneContact
+###
+get {{url-remote2}}/64f48fbdc6641626e8d278e3/64f48fbdc6641626e8d278e4/findSolution
+###
+get http://localhost:1102/todos
+###
+put {{url-remote2}}/609e0c61f3bb853bb88107a1/insertSolutionInfo
+Content-Type: application/json
+
+{
+  "name": "Cirrato",
+  "password": "pass",
+  "username": "username",
+  "portal": "url.uk"
+}
+###
+put {{url-remote2}}/60ab31212e39ce21849b2257/insertOneMethod
+Content-Type: application/json
+
+{
+  "methodName": "GlobalProtect",
+  "password": "pass",
+  "username": "username",
+  "url": "url",
+  "notes": "some notes" 
+}
+###
+put {{url-remote2}}/609e0c61f3bb853bb88107a1/insertScanFolder
+Content-Type: application/json
+
+{
+  "hostname": "server1.local",
+  "folder": "subFolder",
+  "username": "user1",
+  "password": "pass1" 
+}
+###
+put {{url-remote2}}/64e2578ea56cb7d842f342e3/insertNetwork
+Content-Type: application/json
+
+{
+  "name": "hq",
+  "domain": "hq.local",
+  "dns": "dns1"
+}
+###
+get {{url}}/users 
+###
+get {{url}}/users/chloie
+###
+delete {{url}}/users/chloie
+###
+post {{url}}/users
+Content-Type: application/json
+
+{
+  "fname": "new"
+}
+
+###
+get {{url}}/restaurants
+###
+get {{url}}/restaurants/2334b925-802e-4161-b5dd-de53315c9325
+
+###
+POST {{url}}/login
+Content-Type: application/json
+
+{
+  "email": "{{user2}}",
+  "password": "{{pass2}}" 
+}
+###
+POST {{url}}/login
+Content-Type: application/json
+
+{
+  "email": "{{user3}}",
+  "password": "{{pass3}}" 
+}
+###
+POST {{url}}/login
+Content-Type: application/json
+
+{
+  "email": "{{user1}}",
+  "password": "wrongpassword" 
+}
+###
+POST {{url}}/login
+Content-Type: application/json
+
+{
+  "email": "{{user1}}",
+  "password": "wrongpassword" 
+}
+###
+GET {{url-journals}}
+###
+POST {{url-jornals-login}}
+Content-Type: application/json
+
+{
+  "email": "{{user4}}",
+  "password": "{{pass4}}" 
+}
