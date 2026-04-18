@@ -11,6 +11,9 @@ import { ParamProps } from '../../page'
 const EditMethod = async ({ params }: ParamProps) => {
   if ((await params).id.length !== 24) notFound()
   if ((await params).mid?.length !== 24) notFound()
+
+  const { id, mid } = await params
+
   // const methodProps = await prisma.customer.findUnique({
   //   where: { id: (await params).id },
   //   select: {
@@ -29,7 +32,6 @@ const EditMethod = async ({ params }: ParamProps) => {
   //   },
   // })
 
-  const { id, mid } = await params
   // console.log(methodProps)
   // const custLink = `/customer/${id}`
   // const methodLink = `${custLink}/method/${mid}`
@@ -46,9 +48,7 @@ const EditMethod = async ({ params }: ParamProps) => {
         Back
       </ButtonIcon>
       {/* {await params} */}
-      <h1>Edit Method</h1>
-      <p>Method ID: {mid}</p>
-      {/* <MethodForm id={id} name={`name`} /> */}
+      {/* <MethodForm method={methodProps} /> */}
     </MainPage>
   )
 }

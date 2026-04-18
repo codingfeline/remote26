@@ -1,16 +1,18 @@
 'use client'
 
-import { Customer } from '@prisma/client'
+import { MethodInfo } from '@prisma/client'
 import { notFound, useParams } from 'next/navigation'
 
-const MethodForm = ({ id, name }: Customer) => {
+const MethodForm = ({ method }: { method: MethodInfo }) => {
   const params = useParams()
+  const { id, mid } = params
   if (params.id?.length !== 24) notFound()
 
   return (
     <>
+      {JSON.stringify(method)}
       <form className="flex flex-col gap-4">
-        {id} - {name} -
+        {id} - {mid} -
         <label htmlFor="name">
           Name
           <input type="text" id="name" name="name" />
