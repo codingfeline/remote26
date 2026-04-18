@@ -1,0 +1,22 @@
+{
+  "rest-client.environmentVariables": {
+
+    "$shared": {
+    },
+    "Local Env": {
+      "url-26": "http://localhost:2026",
+      "url-26-cust": "http://localhost:2026/api/customers",
+      "url-26-method": "http://localhost:2026/api/method",
+      "":""
+    }
+  },
+  "workbench.colorCustomizations": {
+    // The background of the thin vertical bar
+    "activityBar.background": "#3b850b", 
+    "statusBar.background": "#3b850b",
+    "statusBar.foreground": "#f3fbfc",
+    "titleBar.activeBackground": "#3b850b",
+    "titleBar.inactiveBackground": "#3b850b",
+  },
+  "prisma.pinToPrisma6": false
+}
