@@ -16,19 +16,17 @@ Content-Type: application/json
 
 {
   "methodName": "Cyberark",
-  "url": "http://url.it",
+  "url": "http://url.shop",
   "notes": "some notes2 22",
   "username": "user22",
   "password": "pass22"
 }
 ###
-put {{url-26}}/api/customers/{{cid}}/method-info/{{mid}}
+post {{url-26}}/api/customers/{{cid}}/method-info
 Content-Type: application/json
 
 {
-  "methodName": "Cyberark",
+  "methodName": "Cyberark 33",
   "url": "http://url.it",
-  "notes": "some notes2 22",
-  "username": "user22",
-  "password": "pass22"
+  "notes": "some notes2 22"
 }

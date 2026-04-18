@@ -17,6 +17,10 @@
     "statusBar.foreground": "#f3fbfc",
     "titleBar.activeBackground": "#3b850b",
     "titleBar.inactiveBackground": "#3b850b",
+    "editorGroup.border": "#3b850b",
+    // "editorRuler.foreground": "#3b850b",
+    "editor.rulers": [200],
+    // "sideBar.border": "#3b850b",
   },
   "prisma.pinToPrisma6": false
 }
