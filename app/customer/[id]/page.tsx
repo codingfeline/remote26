@@ -92,7 +92,7 @@ const page = async ({ params }: ParamProps) => {
             <section>
               <h2 className="text-xl font-semibold mb-2">Solution Setup</h2>
               <div className="space-y-4">
-                {customer.serverSetup.map(s => (
+                {customer.solutionSetup.map(s => (
                   <div key={s.id} className="border rounded-xl p-4">
                     <p>
                       <strong>Comment:</strong> {s.comment}

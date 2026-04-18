@@ -1,6 +1,8 @@
 # @url = http://localhost:2026/api/
 @cid = 60858a3dbf27ce642cb6822c
+@cid2 = 64f48fbdc6641626e8d278e3
 @mid = 64cf7d954116fa3fd480844b
+@ctid = 69e3b98866f040caaa6bab42
 
 get {{url-26}}/api/customers
 ###
@@ -11,22 +13,42 @@ get http://localhost:2026/api/customers
 get {{url-26-cust}}
 ###
 
-patch {{url-26}}/api/customers/{{cid}}/method-info/{{mid}}
+patch {{url-26}}/api/customers/{{cid}}/method/{{mid}}
 Content-Type: application/json
 
 {
-  "methodName": "Cyberark",
+  "methodName": "Cyberark patched 99",
   "url": "http://url.shop",
   "notes": "some notes2 22",
   "username": "user22",
   "password": "pass22"
 }
 ###
-post {{url-26}}/api/customers/{{cid}}/method-info
+post {{url-26}}/api/customers/{{cid2}}/method
 Content-Type: application/json
 
 {
-  "methodName": "Cyberark 33",
-  "url": "http://url.it",
+  "methodName": "Cyberark 44",
+  "url": "http://url.class",
   "notes": "some notes2 22"
 }
+###
+post {{url-26}}/api/customers/{{cid2}}/contact
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "tel": "+1234567890"
+}
+###
+patch {{url-26}}/api/customers/{{cid2}}/contact/{{ctid}}
+Content-Type: application/json
+
+{
+  "name": "John Doe 22",
+  "email": "john.doe@example.class",
+  "tel": "+1234567890"
+}
+###
+get {{url-26-cust}}

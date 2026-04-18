@@ -1,14 +1,14 @@
-import { MethodIdProp, MethodInfoSchema, NextRequest, NextResponse, prisma, z } from '@/app/api';
+import { ContactInfoSchema, CustomerAllProps, NextRequest, NextResponse, prisma, z } from '@/app/api';
 
 
-export async function PATCH(req: NextRequest, { params }: MethodIdProp) {
+export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
   try {
     const body = await req.json();
 
     // validate input
-    const data = MethodInfoSchema.parse(body);
+    const data = ContactInfoSchema.parse(body);
 
-    const { customerId, methodId } = await params
+    const { customerId, contactId } = await params
 
     // get existing customer
     const customer = await prisma.customer.findUnique({
@@ -20,21 +20,21 @@ export async function PATCH(req: NextRequest, { params }: MethodIdProp) {
     }
 
     // update method info
-    const updatedMethod = customer.methodInfo.map((method) => {
-      if (method.id === methodId) {
+    const updatedContact = customer.contact.map((contact) => {
+      if (contact.id === contactId) {
         return {
-          ...method,
+          ...contact,
           ...data,
         };
       }
-      return method;
+      return contact;
     })
 
     // save entire array
     await prisma.customer.update({
       where: { id: customerId },
       data: {
-        methodInfo: updatedMethod,
+        contact: updatedContact,
       },
     });
 

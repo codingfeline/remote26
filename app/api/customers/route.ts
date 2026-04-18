@@ -10,7 +10,7 @@ export async function GET() {
         id: true,
         name: true,
         solution: true,
-        methodInfo: true,
+        contact: true,
       }
     })
     return NextResponse.json(customers)
