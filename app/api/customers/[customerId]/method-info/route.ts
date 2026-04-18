@@ -1,8 +1,4 @@
-import { CustIDProp, MethodInfoSchema } from '@/app/api/schema';
-import prisma from '@/lib/prisma';
-import { ObjectId } from 'mongodb';
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
+import { CustIDProp, MethodInfoSchema, NextRequest, NextResponse, ObjectId, prisma, z } from '@/app/api';
 
 export async function POST(req: NextRequest, { params }: CustIDProp) {
   try {
