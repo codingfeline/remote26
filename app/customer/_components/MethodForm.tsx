@@ -1,15 +1,20 @@
 'use client'
 
+import { BackButton, MyButton, Send } from '@/app/components'
+import ButtonIcon from '@/app/components/ButtonIcon'
 import { MethodInfo } from '@prisma/client'
 import { notFound, useParams } from 'next/navigation'
 
-const MethodForm = ({ method }: { method: MethodInfo }) => {
+const MethodForm = ({ method }: { method?: MethodInfo }) => {
   const params = useParams()
   const { id, mid } = params
   if (params.id?.length !== 24) notFound()
 
   return (
     <>
+      <ButtonIcon href={`/customer/${id}`} Icon={BackButton}>
+        Back
+      </ButtonIcon>
       {JSON.stringify(method)}
       <form className="flex flex-col gap-4">
         {id} - {mid} -
@@ -29,6 +34,7 @@ const MethodForm = ({ method }: { method: MethodInfo }) => {
           Password
           <input type="text" id="password" name="password" />
         </label>
+        <MyButton label="Submit" Icon={Send} iconPosition="right" />
       </form>
     </>
   )

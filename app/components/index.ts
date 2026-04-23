@@ -6,6 +6,7 @@ export { default as Spinner } from './Spinner';
 export { AiOutlineDown as ArrowDown, AiOutlineArrowLeft as ArrowLeft, AiOutlineArrowRight as ArrowRight, AiOutlineUp as ArrowUp, AiOutlineDoubleLeft as DoubleArrowLeft, AiOutlineDoubleRight as DoubleArrowRight } from 'react-icons/ai';
 export { GiSittingDog as Dog } from 'react-icons/gi';
 export { GrServerCluster as Server } from 'react-icons/gr';
+export { LuSend as Send } from 'react-icons/lu';
 export { MdCheckCircle as Check, MdClear as Clear, MdRefresh as Refresh } from "react-icons/md";
 export { PiCpu as Cpu, PiMinus as Minus, PiNotePencil as Pencil, PiPlus as Plus } from "react-icons/pi";
 export { RiArrowGoBackFill as BackButton } from "react-icons/ri";
