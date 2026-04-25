@@ -17,7 +17,7 @@ patch {{url-26}}/api/customers/{{cid}}/method/{{mid}}
 Content-Type: application/json
 
 {
-  "methodName": "Cyberark patched 99",
+  "methodName": "Cyberark patched 99 b",
   "url": "http://url.shop",
   "notes": "some notes2 22",
   "username": "user22",

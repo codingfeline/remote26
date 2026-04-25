@@ -6,7 +6,7 @@ import ErrorMessage from '@/app/components/ErrorMessage'
 import { MethodInfoSchema } from '@/app/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MethodInfo } from '@prisma/client'
-import { Callout, Container, TextField } from '@radix-ui/themes'
+import { Container, TextField } from '@radix-ui/themes'
 import axios from 'axios'
 import { notFound, useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -36,10 +36,9 @@ const MethodForm = ({ method }: { method?: MethodInfo }) => {
   const onSubmit = handleSubmit(async data => {
     try {
       setSubmitting(true)
-      if (method)
-        await axios.patch(`/api/customers/${id}/method/${mid}` + method.id, data)
+      if (method) await axios.patch(`/api/customers/${id}/method/${mid}`, data)
       else await axios.post(`/api/customers/${id}/method`, data)
-      router.push(`/customers/${id}`)
+      router.push(`/customer/${id}`)
       router.refresh()
     } catch (error) {
       console.log(error)
@@ -53,12 +52,8 @@ const MethodForm = ({ method }: { method?: MethodInfo }) => {
       <ButtonIcon href={`/customer/${id}`} Icon={BackButton}>
         Back
       </ButtonIcon>
-      <Callout.Root color="red" m="2">
-        <Callout.Text>{error}</Callout.Text>
-      </Callout.Root>
-      {JSON.stringify(method)}
-      {/* {id} - {mid} - */}
-      <form className="flex flex-col gap-4">
+      <ErrorMessage>{error}</ErrorMessage>
+      <form className="flex flex-col gap-4 mt-4">
         <label htmlFor="name">
           Name
           <TextField.Root
