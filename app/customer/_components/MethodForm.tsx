@@ -54,34 +54,44 @@ const MethodForm = ({ method }: { method?: MethodInfo }) => {
         Back
       </ButtonIcon>
       <Callout.Root color="red" m="2">
-        <Callout.Text>error</Callout.Text>
+        <Callout.Text>{error}</Callout.Text>
       </Callout.Root>
       {JSON.stringify(method)}
       {/* {id} - {mid} - */}
       <form className="flex flex-col gap-4">
-        <TextField.Root
-          defaultValue={method?.methodName}
-          placeholder="Method Name"
-          {...register('methodName')}
-        />
-        <ErrorMessage>{errors.methodName?.message}</ErrorMessage>
         <label htmlFor="name">
           Name
-          <input type="text" id="name" name="name" />
+          <TextField.Root
+            defaultValue={method?.methodName}
+            placeholder="Method Name"
+            {...register('methodName')}
+          />
+          <ErrorMessage>{errors.methodName?.message}</ErrorMessage>
         </label>
         <label htmlFor="url">
           URL
-          <input type="text" id="url" name="url" />
+          <TextField.Root
+            defaultValue={method?.url}
+            placeholder="URL"
+            {...register('url')}
+          />
+          <ErrorMessage>{errors.url?.message}</ErrorMessage>
         </label>
-        <label htmlFor="username">
-          Username
-          <input type="text" id="username" name="username" />
-        </label>
-        <label htmlFor="password">
-          Password
-          <input type="text" id="password" name="password" />
-        </label>
-        <MyButton label="Submit" Icon={Send} iconPosition="right" />
+        <label htmlFor="username">Username</label>
+        <TextField.Root
+          defaultValue={method?.username}
+          placeholder="Username"
+          {...register('username')}
+        />
+        <ErrorMessage>{errors.username?.message}</ErrorMessage>
+        <label htmlFor="password">Password</label>
+        <TextField.Root
+          defaultValue={method?.password}
+          placeholder="Password"
+          {...register('password')}
+        />
+        <ErrorMessage>{errors.password?.message}</ErrorMessage>
+        <MyButton label="Submit" Icon={Send} iconPosition="right" click={onSubmit} />
       </form>
     </Container>
   )
