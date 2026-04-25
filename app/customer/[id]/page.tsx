@@ -1,4 +1,4 @@
-import { BackButton } from '@/app/components'
+import { BackButton, MyButton } from '@/app/components'
 import ButtonIcon from '@/app/components/ButtonIcon'
 import MainPage from '@/app/components/MainPage'
 import CustomerList from '@/app/customer/_components/CustomerFilterList'
@@ -43,9 +43,11 @@ const page = async ({ params }: ParamProps) => {
               <h1 className="text-2xl font-bold">{customer.name}</h1>
               <p className="text-gray-600">Solution: {customer.solution}</p>
             </div>
-            {cid}
+            {/* {cid} */}
 
             {method.length > 0 && <MethodInfo cid={cid} method={customer.methodInfo} />}
+            <MyButton secondary label="Add Method" url={`/customer/${cid}/method/new`} />
+
             {contact.length > 0 && <Contact contact={customer.contact} />}
             {/* Servers */}
             <section>
