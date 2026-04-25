@@ -22,7 +22,7 @@ const MethodInfo = ({ method, cid }: Props) => {
           const link = `/customer/${cid}/method/${m.id}`
 
           return (
-            <div key={m.id} className="border rounded-xl p-4 shadow-sm">
+            <div key={m.id} className="border rounded-lg p-4 shadow-sm">
               <Iconner href={link} Icon={Pencil} />
               <p>
                 <strong>Name:</strong> {m.methodName}
@@ -35,13 +35,15 @@ const MethodInfo = ({ method, cid }: Props) => {
               </p>
               <p>
                 <strong>Username:</strong> {m.username}
+                <Iconner Icon={Copy} func={() => handleCopy(m.username)} />
               </p>
               <p>
                 <strong>Password:</strong> {m.password}
                 <Iconner Icon={Copy} func={() => handleCopy(m.password)} />
               </p>
-              <p>
-                <strong>Notes:</strong> {m.notes}
+              <p className="note">
+                <strong>Notes:</strong>{' '}
+                <span className="flex self-start whitespace-pre">{m.notes}</span>
               </p>
             </div>
           )

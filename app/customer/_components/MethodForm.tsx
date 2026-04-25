@@ -6,7 +6,7 @@ import ErrorMessage from '@/app/components/ErrorMessage'
 import { MethodInfoSchema } from '@/app/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MethodInfo } from '@prisma/client'
-import { Container, TextField } from '@radix-ui/themes'
+import { Container, TextArea, TextField } from '@radix-ui/themes'
 import axios from 'axios'
 import { notFound, useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -59,6 +59,7 @@ const MethodForm = ({ method }: { method?: MethodInfo }) => {
           <TextField.Root
             defaultValue={method?.methodName}
             placeholder="Method Name"
+            id="name"
             {...register('methodName')}
           />
           <ErrorMessage>{errors.methodName?.message}</ErrorMessage>
@@ -68,25 +69,48 @@ const MethodForm = ({ method }: { method?: MethodInfo }) => {
           <TextField.Root
             defaultValue={method?.url}
             placeholder="URL"
+            id="url"
             {...register('url')}
           />
           <ErrorMessage>{errors.url?.message}</ErrorMessage>
         </label>
-        <label htmlFor="username">Username</label>
-        <TextField.Root
-          defaultValue={method?.username}
-          placeholder="Username"
-          {...register('username')}
+        <label htmlFor="username">
+          Username
+          <TextField.Root
+            defaultValue={method?.username}
+            placeholder="Username"
+            id="username"
+            {...register('username')}
+          />
+          <ErrorMessage>{errors.username?.message}</ErrorMessage>
+        </label>
+        <label htmlFor="password">
+          Password
+          <TextField.Root
+            defaultValue={method?.password}
+            placeholder="Password"
+            id="password"
+            {...register('password')}
+          />
+          <ErrorMessage>{errors.password?.message}</ErrorMessage>
+        </label>
+        <label htmlFor="notes">
+          Notes
+          <TextArea
+            defaultValue={method?.notes}
+            placeholder="Notes"
+            id="notes"
+            {...register('notes')}
+          />
+          <ErrorMessage>{errors.notes?.message}</ErrorMessage>
+        </label>
+        <MyButton
+          disable={submitting}
+          label="Submit"
+          Icon={Send}
+          iconPosition="right"
+          click={onSubmit}
         />
-        <ErrorMessage>{errors.username?.message}</ErrorMessage>
-        <label htmlFor="password">Password</label>
-        <TextField.Root
-          defaultValue={method?.password}
-          placeholder="Password"
-          {...register('password')}
-        />
-        <ErrorMessage>{errors.password?.message}</ErrorMessage>
-        <MyButton label="Submit" Icon={Send} iconPosition="right" click={onSubmit} />
       </form>
     </Container>
   )

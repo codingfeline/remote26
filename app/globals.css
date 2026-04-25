@@ -36,6 +36,9 @@ body {
       @apply flex justify-end;
     }
   }
+  & .note {
+    @apply flex justify-start whitespace-pre gap-2;
+  }
 }
 
 form input {
