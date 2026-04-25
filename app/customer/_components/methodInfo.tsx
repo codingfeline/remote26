@@ -1,6 +1,6 @@
 'use client'
 
-import { Copy, Link, Pencil } from '@/app/components'
+import { Copy, Pencil } from '@/app/components'
 import { useCopyToClipboard } from '@/app/components/CopyToClipboard'
 import Iconner from '@/app/components/Iconner'
 import { MethodInfo as MethodModel } from '@prisma/client'
@@ -46,7 +46,6 @@ const MethodInfo = ({ method, cid }: Props) => {
             </div>
           )
         })}
-        <Link href={`/customer/${cid}/method/new`}>New Method</Link>
       </ItemContainer>
     </section>
   )
