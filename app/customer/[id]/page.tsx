@@ -10,7 +10,7 @@ import Contact from '../_components/Contact'
 import MethodInfo from '../_components/methodInfo'
 
 export interface ParamProps {
-  params: Promise<{ id: string; mid?: string }> // * making this a Promise to await below (await params)
+  params: Promise<{ id: string; mid?: string; ctid?: string }> // * making this a Promise to await below (await params)
 }
 
 export const metadata: Metadata = {
@@ -48,7 +48,12 @@ const page = async ({ params }: ParamProps) => {
             {method.length > 0 && <MethodInfo cid={cid} method={customer.methodInfo} />}
             <MyButton secondary label="Add Method" url={`/customer/${cid}/method/new`} />
 
-            {contact.length > 0 && <Contact contact={customer.contact} />}
+            {contact.length > 0 && <Contact cid={cid} contact={customer.contact} />}
+            <MyButton
+              secondary
+              label="Add Contact"
+              url={`/customer/${cid}/contact/new`}
+            />
             {/* Servers */}
             <section>
               <h2 className="text-xl font-semibold mb-2">Servers</h2>

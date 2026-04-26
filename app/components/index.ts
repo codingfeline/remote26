@@ -11,6 +11,11 @@ export { MdCheckCircle as Check, MdClear as Clear, MdRefresh as Refresh } from "
 export { PiCpu as Cpu, PiMinus as Minus, PiNotePencil as Pencil, PiPlus as Plus } from "react-icons/pi";
 export { RiArrowGoBackFill as BackButton } from "react-icons/ri";
 export { VscCopy as Copy } from 'react-icons/vsc';
+export { default as ButtonIcon } from './ButtonIcon';
+export { default as ErrorMessage } from './ErrorMessage';
+export { default as Iconner } from './Iconner';
+export { default as MainPage } from './MainPage';
+
 
 export const dateOptions = {
   day: 'numeric',
