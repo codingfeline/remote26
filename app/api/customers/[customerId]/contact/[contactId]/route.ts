@@ -1,5 +1,6 @@
-import { ContactInfoSchema, CustomerAllProps, NextRequest, NextResponse, prisma, z } from '@/app/api';
-
+import { NextRequest, NextResponse, prisma } from '@/app/api';
+import { ContactInfoSchema, CustomerAllProps } from '@/app/schema';
+import { z } from 'zod';
 
 export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
   try {
