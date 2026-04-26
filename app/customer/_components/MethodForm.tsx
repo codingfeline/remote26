@@ -1,8 +1,6 @@
 'use client'
-
-import { BackButton, MyButton, Send } from '@/app/components'
-import ButtonIcon from '@/app/components/ButtonIcon'
-import ErrorMessage from '@/app/components/ErrorMessage'
+import { BackButton, ButtonIcon, ErrorMessage, MyButton, Send } from '@/app/components'
+import CompoForm from '@/app/components/CompoForm'
 import { MethodInfoSchema } from '@/app/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MethodInfo } from '@prisma/client'
@@ -11,7 +9,7 @@ import axios from 'axios'
 import { notFound, useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import z from 'zod'
 
 type MethodFormData = z.infer<typeof MethodInfoSchema>
 
@@ -53,7 +51,7 @@ const MethodForm = ({ method }: { method?: MethodInfo }) => {
         Back
       </ButtonIcon>
       <ErrorMessage>{error}</ErrorMessage>
-      <form className="flex flex-col gap-4 mt-4">
+      <CompoForm>
         <label htmlFor="name">
           Name
           <TextField.Root
@@ -111,7 +109,7 @@ const MethodForm = ({ method }: { method?: MethodInfo }) => {
           iconPosition="right"
           click={onSubmit}
         />
-      </form>
+      </CompoForm>
     </Container>
   )
 }
