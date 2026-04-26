@@ -8,10 +8,10 @@ interface Props {
   href?: string
 }
 
-const WrIcon = ({ Icon, func, href }: Props) => {
+const Iconner = ({ Icon, func, href }: Props) => {
   return (
     <div
-      className={`text-2xl  ${func ? 'text-gray-500 hover:text-violet-700 cursor-pointer' : 'text-gray-700'}`}
+      className={`text-2xl  ${func || href ? 'inline-block text-gray-500 hover:text-violet-700 cursor-pointer' : 'text-gray-700'}`}
     >
       {href ? (
         <Link href={href}>
@@ -24,4 +24,4 @@ const WrIcon = ({ Icon, func, href }: Props) => {
   )
 }
 
-export default WrIcon
+export default Iconner
