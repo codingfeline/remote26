@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse, ObjectId, prisma, z } from '@/app/api';
+import { NextRequest, NextResponse, ObjectId, prisma } from '@/app/api';
 import { ContactInfoSchema, CustomerAllProps } from '@/app/schema';
+import { z } from 'zod';
 
 export async function POST(req: NextRequest, { params }: CustomerAllProps
 ) {
