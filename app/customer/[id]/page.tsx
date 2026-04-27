@@ -121,4 +121,6 @@ const page = async ({ params }: ParamProps) => {
   )
 }
 
+export const dynamic = 'force-dynamic'
+
 export default page
