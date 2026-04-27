@@ -40,14 +40,8 @@ export function useFormSubmit<T>() {
       }
 
       if (onSuccess) onSuccess()
-    } catch (err: any) {
-
-      const message =
-        err?.response?.data?.message ||
-        err?.message ||
-        'Unexpected error'
-
-      setError(message)
+    } catch (err: unknown) {
+      setError(getErrorMessage(err))
     } finally {
       setSubmitting(false)
     }
@@ -58,4 +52,12 @@ export function useFormSubmit<T>() {
     submitting,
     error,
   }
+}
+
+export function getErrorMessage(err: unknown): string {
+  if (axios.isAxiosError(err)) {
+    return err.response?.data?.message || err.message
+  }
+  if (err instanceof Error) return err.message
+  return 'Something went wrong'
 }
