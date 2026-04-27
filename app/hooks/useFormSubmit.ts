@@ -35,8 +35,8 @@ export function useFormSubmit<T>() {
       })
 
       if (onSuccessRedirect) {
-        // router.push(onSuccessRedirect)
-        // router.refresh()
+        router.push(onSuccessRedirect)
+        router.refresh()
       }
 
       if (onSuccess) onSuccess()
