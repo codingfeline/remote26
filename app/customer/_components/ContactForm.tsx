@@ -31,7 +31,7 @@ const ContactForm = ({ contact }: { contact?: Contact }) => {
   const onSubmit = handleSubmit(async data => {
     await submit(data, {
       url: contact
-        ? `/api/customers/${id}/contact/${ctid}/;glkl;gkfd;g`
+        ? `/api/customers/${id}/contact/${ctid}/`
         : `/api/customers/${id}/contact`,
       method: contact ? 'patch' : 'post',
       onSuccessRedirect: `/customer/${id}`,
