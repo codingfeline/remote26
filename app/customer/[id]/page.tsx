@@ -7,7 +7,9 @@ import type { Metadata } from 'next'
 
 import { notFound } from 'next/navigation'
 import Contact from '../_components/Contact'
+import DeviceInfo from '../_components/DeviceInfo'
 import MethodInfo from '../_components/methodInfo'
+import ServerInfo from '../_components/ServerInfo'
 
 export interface ParamProps {
   params: Promise<{ id: string; mid?: string; ctid?: string }> // * making this a Promise to await below (await params)
@@ -25,7 +27,7 @@ const page = async ({ params }: ParamProps) => {
     where: { id: cid },
   })
   if (!customer) notFound()
-  const { methodInfo: method, contact } = customer
+  const { methodInfo: method, contact, server, devicePassword: device } = customer
 
   return (
     <MainPage>
@@ -54,47 +56,14 @@ const page = async ({ params }: ParamProps) => {
               label="Add Contact"
               url={`/customer/${cid}/contact/new`}
             />
+
+            {server.length > 0 && <ServerInfo server={customer.server} cid={cid} />}
+            {device.length > 0 && (
+              <DeviceInfo devicePasswords={customer.devicePassword} cid={cid} />
+            )}
             {/* Servers */}
-            <section>
-              <h2 className="text-xl font-semibold mb-2">Servers</h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                {customer.server.map(s => (
-                  <div key={s.id} className="border rounded-xl p-4">
-                    <p>
-                      <strong>Name:</strong> {s.name}
-                    </p>
-                    <p>
-                      <strong>IP:</strong> {s.ip}
-                    </p>
-                    <p>
-                      <strong>Username:</strong> {s.username}
-                    </p>
-                    <p>
-                      <strong>Password:</strong> {s.password}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
+
             {/* Device Passwords */}
-            <section>
-              <h2 className="text-xl font-semibold mb-2">Device Passwords</h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                {customer.devicePassword.map(d => (
-                  <div key={d.id} className="border rounded-xl p-4">
-                    <p>
-                      <strong>Make:</strong> {d.make}
-                    </p>
-                    <p>
-                      <strong>Username:</strong> {d.username}
-                    </p>
-                    <p>
-                      <strong>Password:</strong> {d.password}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
             {/* Server Setup */}
             <section>
               <h2 className="text-xl font-semibold mb-2">Solution Setup</h2>
