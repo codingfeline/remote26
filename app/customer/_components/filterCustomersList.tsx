@@ -21,7 +21,7 @@ const FilterCustomersList = ({ names, requireSearch }: Prop) => {
   const filtered = names.filter(t =>
     t.name.toLowerCase().includes(searchTerm.toLowerCase()),
   )
-  const showList = requireSearch ? searchTerm !== '' : true
+  // const showList = requireSearch ? searchTerm !== '' : true
 
   return (
     <div>
@@ -39,14 +39,16 @@ const FilterCustomersList = ({ names, requireSearch }: Prop) => {
             </TextField.Root>
           </Box>
 
-          {showList &&
+          {
+            // showlist &&
             filtered.map(t => (
               <div key={t.id}>
                 <Flex my="1" wrap="nowrap">
                   <ButtonIcon href={`/customer/${t.id}`}>{t.name}</ButtonIcon>
                 </Flex>
               </div>
-            ))}
+            ))
+          }
         </Container>
       </Flex>
     </div>

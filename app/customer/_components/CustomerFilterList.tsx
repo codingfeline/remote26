@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma'
 import FilterCustomers from './filterCustomersList'
 
 interface Props {
-  requireSearch: boolean
+  requireSearch?: boolean
 }
 
 const CustomerList = async ({ requireSearch }: Props) => {
