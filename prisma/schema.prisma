@@ -90,6 +90,8 @@ model Customer {
   devicePassword DevicePassword[]
   solutionSetup  SolutionSetup[]
   deviceSetup    DeviceSetup[]
+  scanToEmail    ScanToEmail[]
+  scanToFolder   ScanToFolder[]
 }
 
 type MethodInfo {
@@ -109,11 +111,12 @@ type Contact {
 }
 
 type Server {
-  id       String @map("_id") @db.ObjectId
+  id       String  @map("_id") @db.ObjectId
   name     String
   username String
   password String
   ip       String
+  notes    String?
 }
 
 type DevicePassword {
@@ -135,4 +138,20 @@ type DeviceSetup {
   comment    String
   screenshot String
   path       String
+}
+
+type ScanToEmail {
+  id       String @map("_id") @db.ObjectId
+  hostname String
+  username String
+  password String
+  port     String
+}
+
+type ScanToFolder {
+  id       String  @map("_id") @db.ObjectId
+  hostname String
+  folder   String?
+  username String
+  password String
 }
