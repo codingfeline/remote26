@@ -26,11 +26,12 @@ const Contact = ({ contact, cid }: Props) => {
             </p>
             <p>
               <strong>Tel:</strong> {c.tel}
-              <Iconner Icon={Copy} func={() => handleCopy(c.tel)} />
+              {c.tel && <Iconner Icon={Copy} func={() => handleCopy(c.tel)} />}
+              {/* <Iconner Icon={Copy} func={() => handleCopy(c.tel)}  */}
             </p>
             <p>
               <strong>Email:</strong> {c.email}
-              <Iconner Icon={Copy} func={() => handleCopy(c.email)} />
+              {c.email && <Iconner Icon={Copy} func={() => handleCopy(c.email)} />}
             </p>
           </div>
         ))}
