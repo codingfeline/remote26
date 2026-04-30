@@ -11,7 +11,7 @@ export const MethodInfoSchema = z.object({
 export const ContactInfoSchema = z.object({
   name: z.string().min(1, "Name must be at least 2 characters").optional(),
   tel: z.string().optional(),
-  email: z.email("Invalid email").optional(),
+  email: z.email("Invalid email").optional().or(z.literal(""))
 });
 
 export const ServerSchema = z.object({
