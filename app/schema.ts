@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+export const CustomerSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  solution: z.string().min(1, "Solution is required"),
+});
+
 export const MethodInfoSchema = z.object({
   methodName: z.string().min(1, "Name is required"),
   url: z.url().optional(),
