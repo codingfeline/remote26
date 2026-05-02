@@ -3,6 +3,7 @@
 import { Container, Flex } from '@radix-ui/themes'
 import classnames from 'classnames'
 // import { useSession } from 'next-auth/react'
+import NextLink from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Server } from '.'
@@ -43,12 +44,11 @@ const AppHeader = () => {
               display="flex"
               direction={{ initial: 'column', sm: 'row' }}
             >
-              <div
-                onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex justify-center p-2 cursor-pointer"
-              >
-                <Server size="24px" />
-              </div>
+              <NextLink href="/">
+                <div className="w-full flex justify-center p-2 cursor-pointer hover:text-violet-700">
+                  <Server size="24px" />
+                </div>
+              </NextLink>
               <NavLinks isOpen={isOpen} setIsOpen={setIsOpen} />
             </Flex>
             {/* <AuthStatus /> */}
