@@ -27,7 +27,7 @@ const ScanToFolderInfo = ({ scan2e, cid }: Props) => {
             </p>
             <p>
               <strong>folder:</strong> {s.folder}
-              {s.folder && <Iconner Icon={Copy} func={() => handleCopy(s.folder)} />}
+              {s.folder && <Iconner Icon={Copy} func={() => handleCopy(s.folder!)} />}
             </p>
             <p>
               <strong>username:</strong> {s.username}

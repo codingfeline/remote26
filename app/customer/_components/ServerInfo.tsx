@@ -20,7 +20,7 @@ const ServerInfo = ({ server, cid }: Props) => {
       <ItemContainer title="Server">
         {server.map(s => (
           <div key={s.id} className="border rounded-xl p-4">
-            <Iconner href={`/customer/${cid}/contact/${s.id}`} Icon={Pencil} />
+            <Iconner href={`/customer/${cid}/server/${s.id}`} Icon={Pencil} />
             <p>
               <strong>Name:</strong> {s.name}
             </p>
@@ -35,6 +35,14 @@ const ServerInfo = ({ server, cid }: Props) => {
             <p>
               <strong>Password:</strong> {s.password}
               <Iconner Icon={Copy} func={() => handleCopy(s.password)} />
+            </p>
+            <p>
+              <strong>Notes:</strong> {s.notes}
+              <Iconner
+                Icon={Copy}
+                {...(s.notes && { func: () => handleCopy(s.notes!) })}
+                // only add func if notes is not empty
+              />
             </p>
           </div>
         ))}

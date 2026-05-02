@@ -30,7 +30,7 @@ const DeviceInfo = ({ devicePasswords: device, cid }: Props) => {
             </p>
             <p>
               <strong>password:</strong> {s.password}
-              <Iconner Icon={Copy} func={() => handleCopy(s.password)} />
+              {s.password && <Iconner Icon={Copy} func={() => handleCopy(s.password!)} />}
             </p>
           </div>
         ))}
