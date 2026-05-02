@@ -8,6 +8,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Contact from '../_components/Contact'
 import DeviceInfo from '../_components/DeviceInfo'
+import DeviceSetupInfo from '../_components/DeviceSetupInfo'
 import MethodInfo from '../_components/methodInfo'
 import ScanToEmailInfo from '../_components/ScanToEmail'
 import ScanToFolderInfo from '../_components/ScanToFolder'
@@ -15,7 +16,7 @@ import ServerInfo from '../_components/ServerInfo'
 import SolutionsInfo from '../_components/SolutionSetup'
 
 export interface ParamProps {
-  params: Promise<{ id: string; mid?: string; ctid?: string; sid?: string }> // * making this a Promise to await below (await params)
+  params: Promise<{ id: string; mid?: string; ctid?: string; sid?: string; did?: string; dsid?: string; steid?: string; stfid?: string }> // * making this a Promise to await below (await params)
 }
 
 export const metadata: Metadata = {
@@ -66,6 +67,12 @@ const page = async ({ params }: ParamProps) => {
             {device.length > 0 && (
               <DeviceInfo devicePasswords={customer.devicePassword} cid={cid} />
             )}
+            <MyButton secondary label="Add Device" url={`/customer/${cid}/device/new`} />
+
+            {customer.deviceSetup.length > 0 && (
+              <DeviceSetupInfo deviceSetup={customer.deviceSetup} cid={cid} />
+            )}
+            <MyButton secondary label="Add Device Setup" url={`/customer/${cid}/device-setup/new`} />
 
             {SolutionsInfo && (
               <SolutionsInfo solution={customer.solutionSetup} cid={cid} />
@@ -73,9 +80,12 @@ const page = async ({ params }: ParamProps) => {
             {customer.scanToEmail && (
               <ScanToEmailInfo scan2e={customer.scanToEmail} cid={cid} />
             )}
+            <MyButton secondary label="Add Scan To Email" url={`/customer/${cid}/scan-to-email/new`} />
+
             {customer.scanToFolder && (
               <ScanToFolderInfo scan2e={customer.scanToFolder} cid={cid} />
             )}
+            <MyButton secondary label="Add Scan To Folder" url={`/customer/${cid}/scan-to-folder/new`} />
           </div>
         </div>
       </div>

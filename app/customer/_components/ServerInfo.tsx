@@ -1,9 +1,11 @@
 'use client'
 
-import { Copy, Pencil } from '@/app/components'
+import { ConfirmDelete, Copy, Pencil } from '@/app/components'
 import { useCopyToClipboard } from '@/app/components/CopyToClipboard'
 import Iconner from '@/app/components/Iconner'
 import { Server as ServerModel } from '@prisma/client'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import ItemContainer from './ItemContainer'
 
 interface Props {
@@ -13,6 +15,13 @@ interface Props {
 
 const ServerInfo = ({ server, cid }: Props) => {
   const { copy: handleCopy } = useCopyToClipboard()
+  const router = useRouter()
+
+  const handleDelete = async (id: string) => {
+    await axios.delete(`/api/customers/${cid}/server/${id}`)
+    router.refresh()
+  }
+
   if (!server) return
 
   return (
@@ -20,7 +29,10 @@ const ServerInfo = ({ server, cid }: Props) => {
       <ItemContainer title="Server">
         {server.map(s => (
           <div key={s.id} className="border rounded-xl p-4">
-            <Iconner href={`/customer/${cid}/server/${s.id}`} Icon={Pencil} />
+            <div className="flex justify-between">
+              <Iconner href={`/customer/${cid}/server/${s.id}`} Icon={Pencil} />
+              <ConfirmDelete onConfirm={() => handleDelete(s.id)} />
+            </div>
             <p>
               <strong>Name:</strong> {s.name}
             </p>

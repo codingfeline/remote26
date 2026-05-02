@@ -1,9 +1,11 @@
 'use client'
 
-import { Copy, Pencil } from '@/app/components'
+import { ConfirmDelete, Copy, Pencil } from '@/app/components'
 import { useCopyToClipboard } from '@/app/components/CopyToClipboard'
 import Iconner from '@/app/components/Iconner'
 import { MethodInfo as MethodModel } from '@prisma/client'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import ItemContainer from './ItemContainer'
 
 interface Props {
@@ -13,6 +15,13 @@ interface Props {
 
 const MethodInfo = ({ method, cid }: Props) => {
   const { copy: handleCopy } = useCopyToClipboard()
+  const router = useRouter()
+
+  const handleDelete = async (id: string) => {
+    await axios.delete(`/api/customers/${cid}/method/${id}`)
+    router.refresh()
+  }
+
   if (!method) return
 
   return (
@@ -23,7 +32,10 @@ const MethodInfo = ({ method, cid }: Props) => {
 
           return (
             <div key={m.id} className="border rounded-lg p-4 shadow-sm">
-              <Iconner href={link} Icon={Pencil} />
+              <div className="flex justify-between">
+                <Iconner href={link} Icon={Pencil} />
+                <ConfirmDelete onConfirm={() => handleDelete(m.id)} />
+              </div>
               <p>
                 <strong>Name:</strong> {m.methodName}
               </p>
