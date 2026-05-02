@@ -1,0 +1,51 @@
+import { NextRequest, NextResponse, prisma } from '@/app/api';
+import { CustomerAllProps, ServerSchema } from '@/app/schema';
+import { z } from 'zod';
+
+export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
+  try {
+    const body = await req.json();
+
+    // validate input
+    const data = ServerSchema.parse(body);
+
+    const { customerId, serverId } = await params
+
+    // get existing customer
+    const customer = await prisma.customer.findUnique({
+      where: { id: customerId },
+    });
+
+    if (!customer) {
+      return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
+    }
+
+    // update method info
+    const updatedServer = customer.server.map((server) => {
+      if (server.id === serverId) {
+        return {
+          ...server,
+          ...data,
+        };
+      }
+      return server;
+    })
+
+    console.log(updatedServer)
+
+    // save entire array
+    await prisma.customer.update({
+      where: { id: customerId },
+      data: {
+        server: updatedServer,
+      },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: z.flattenError(error) }, { status: 400 });
+    }
+    return NextResponse.json({ error: 'Invalid data' }, { status: 500 });
+  }
+}
