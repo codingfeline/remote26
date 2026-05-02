@@ -6,7 +6,7 @@ interface Props {
 }
 
 const CustomerList = async ({ requireSearch }: Props) => {
-  const customers = await prisma.customer.findMany()
+  const customers = await prisma.customer.findMany({ orderBy: { name: 'asc' } })
   const names = customers.map(c => ({ name: c.name, id: c.id }))
 
   return (

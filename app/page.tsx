@@ -3,12 +3,12 @@ import MainPage from './components/MainPage'
 import FilterCustomers from './customer/_components/filterCustomersList'
 
 export default async function Home() {
-  const customers = await prisma.customer.findMany()
+  const customers = await prisma.customer.findMany({ orderBy: { name: 'asc' } })
   const names = customers.map(c => ({ name: c.name, id: c.id }))
 
   return (
     <MainPage>
-      <FilterCustomers names={names} requireSearch={false} />
+      <FilterCustomers names={names} requireSearch={false} horizontal />
       {/* <div className="flex justify-center flex-wrap items-center gap-1 ">
         <CustomerList />
       </div> */}
