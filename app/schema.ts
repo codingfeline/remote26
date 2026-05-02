@@ -40,6 +40,20 @@ export const DeviceSetupSchema = z.object({
   path: z.string().optional(),
 });
 
+export const ScanToEmailSchema = z.object({
+  hostname: z.string().optional(),
+  username: z.string().optional(),
+  password: z.string().optional(),
+  port: z.string().optional(),
+});
+
+export const ScanToFolderSchema = z.object({
+  hostname: z.string().optional(),
+  folder: z.string().optional(),
+  username: z.string().optional(),
+  password: z.string().optional(),
+});
+
 export type Params = Promise<{ customerId: string }>;
 export type CustIDProp = { params: Params }
 
@@ -50,6 +64,7 @@ export type CustomerAllProps = {
   params: Promise<
     {
       customerId?: string, methodId?: string, contactId?: string,
-      serverId?: string, deviceId?: string, deviceSetupId?: string, solutionId?: string
+      sid?: string, did?: string, dsid?: string, deviceId?: string, deviceSetupId?: string, solutionId?: string,
+      steid?: string, stfid?: string
     }>
 }

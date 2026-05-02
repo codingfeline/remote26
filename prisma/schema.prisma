@@ -149,9 +149,9 @@ type ScanToEmail {
 }
 
 type ScanToFolder {
-  id       String  @map("_id") @db.ObjectId
+  id       String @map("_id") @db.ObjectId
   hostname String
-  folder   String?
+  folder   String
   username String
   password String
 }
