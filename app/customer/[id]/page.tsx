@@ -1,5 +1,5 @@
-import { BackButton, MyButton } from '@/app/components'
-import ButtonIcon from '@/app/components/ButtonIcon'
+import { BackToTop, MyButton, Pencil } from '@/app/components'
+import Iconner from '@/app/components/Iconner'
 import MainPage from '@/app/components/MainPage'
 import CustomerList from '@/app/customer/_components/CustomerFilterList'
 import prisma from '@/lib/prisma'
@@ -16,7 +16,16 @@ import ServerInfo from '../_components/ServerInfo'
 import SolutionsInfo from '../_components/SolutionSetup'
 
 export interface ParamProps {
-  params: Promise<{ id: string; mid?: string; ctid?: string; sid?: string; did?: string; dsid?: string; steid?: string; stfid?: string }> // * making this a Promise to await below (await params)
+  params: Promise<{
+    id: string
+    mid?: string
+    ctid?: string
+    sid?: string
+    did?: string
+    dsid?: string
+    steid?: string
+    stfid?: string
+  }> // * making this a Promise to await below (await params)
 }
 
 export const metadata: Metadata = {
@@ -36,18 +45,18 @@ const page = async ({ params }: ParamProps) => {
   return (
     <MainPage>
       <div className="grid md:grid-cols-[250px_1fr] grid-cols-1 ">
-        <div className="border-r overflow-y-auto min-h- bg-gray-100 p-2">
+        <div className="md:border-r overflow-y-auto bg-gray-100 p-2 sticky top-0 max-h-screen">
           <CustomerList requireSearch={true} />
         </div>
-        <div className=" p-6 overflow-y-auto min-h-0 ">
-          <ButtonIcon href="/" Icon={BackButton}>
-            back m
-          </ButtonIcon>
+        <div className=" p-2 overflow-y-auto min-h-0 ">
           {/* {JSON.stringify(customer)} */}
-          <div className="p-6 space-y-8">
+          <div className="px-6 space-y-4">
             {/* Header */}
-            <div>
-              <h1 className="text-2xl font-bold">{customer.name}</h1>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <h1 className="text-2xl font-bold">{customer.name}</h1>
+                <Iconner href={`/customer/${cid}/edit`} Icon={Pencil} />
+              </div>
               <p className="text-gray-600">Solution: {customer.solution}</p>
             </div>
             {/* {cid} */}
@@ -72,23 +81,36 @@ const page = async ({ params }: ParamProps) => {
             {customer.deviceSetup.length > 0 && (
               <DeviceSetupInfo deviceSetup={customer.deviceSetup} cid={cid} />
             )}
-            <MyButton secondary label="Add Device Setup" url={`/customer/${cid}/device-setup/new`} />
+            <MyButton
+              secondary
+              label="Add Device Setup"
+              url={`/customer/${cid}/device-setup/new`}
+            />
 
-            {SolutionsInfo && (
+            {SolutionsInfo.length > 0 && (
               <SolutionsInfo solution={customer.solutionSetup} cid={cid} />
             )}
-            {customer.scanToEmail && (
+            {customer.scanToEmail.length > 0 && (
               <ScanToEmailInfo scan2e={customer.scanToEmail} cid={cid} />
             )}
-            <MyButton secondary label="Add Scan To Email" url={`/customer/${cid}/scan-to-email/new`} />
+            <MyButton
+              secondary
+              label="Add Scan To Email"
+              url={`/customer/${cid}/scan-to-email/new`}
+            />
 
-            {customer.scanToFolder && (
+            {customer.scanToFolder.length > 0 && (
               <ScanToFolderInfo scan2e={customer.scanToFolder} cid={cid} />
             )}
-            <MyButton secondary label="Add Scan To Folder" url={`/customer/${cid}/scan-to-folder/new`} />
+            <MyButton
+              secondary
+              label="Add Scan To Folder"
+              url={`/customer/${cid}/scan-to-folder/new`}
+            />
           </div>
         </div>
       </div>
+      <BackToTop />
     </MainPage>
   )
 }
