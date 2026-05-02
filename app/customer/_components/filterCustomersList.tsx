@@ -1,6 +1,6 @@
 'use client'
 
-import { Eye, MyButton } from '@/app/components'
+import { MyButton } from '@/app/components'
 import ButtonIcon from '@/app/components/ButtonIcon'
 import { Box, Container, Flex, TextField } from '@radix-ui/themes'
 import { usePathname } from 'next/navigation'
@@ -67,19 +67,9 @@ const FilterCustomersList = ({ names, requireSearch, horizontal }: Prop) => {
               const isActive = pathname === `/customer/${t.id}`
               return (
                 <div key={t.id} className="flex items-center md:my-1">
-                  <ButtonIcon
-                    href={`/customer/${t.id}`}
-                    Icon={isActive ? Eye : undefined}
-                    classes="md:hidden"
-                  >
+                  <ButtonIcon href={`/customer/${t.id}`} active={isActive}>
                     {t.name}
                   </ButtonIcon>
-                  <ButtonIcon href={`/customer/${t.id}`} classes="hidden md:flex">
-                    {t.name}
-                  </ButtonIcon>
-                  {isActive && (
-                    <Eye className="text-violet-600 ml-1 shrink-0 hidden md:inline" />
-                  )}
                 </div>
               )
             })}

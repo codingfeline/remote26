@@ -7,14 +7,15 @@ interface Prop {
   Icon?: ComponentType<IconProps>
   children: ReactNode
   classes?: string
+  active?: boolean
 }
 
-const ButtonIcon = ({ href, Icon, children, classes }: Prop) => {
+const ButtonIcon = ({ href, Icon, children, classes, active }: Prop) => {
   return (
     <div className={`flex  ${classes}`}>
       <Link
         href={href}
-        className={` bg-violet-200 hover:bg-violet-300 flex items-center gap-2 p-1 px-2 rounded-sm  `}
+        className={`${active ? 'bg-violet-400 hover:bg-violet-500' : 'bg-violet-200 hover:bg-violet-300'} flex items-center gap-2 p-1 px-2 rounded-sm`}
       >
         {Icon && <Icon />} {children}
       </Link>
