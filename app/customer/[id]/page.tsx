@@ -45,7 +45,7 @@ const page = async ({ params }: ParamProps) => {
   return (
     <MainPage>
       <div className="grid md:grid-cols-[250px_1fr] grid-cols-1 ">
-        <div className="md:border-r overflow-y-auto bg-gray-100 p-2 sticky top-0 max-h-screen">
+        <div className="md:border-r overflow-y-auto bg-gray-100 p-2 md:sticky md:top-0 md:max-h-screen">
           <CustomerList requireSearch={true} />
         </div>
         <div className=" p-2 overflow-y-auto min-h-0 ">
