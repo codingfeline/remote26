@@ -1,16 +1,16 @@
 import MainPage from '@/app/components/MainPage'
 import SolutionSetupForm from '@/app/customer/_components/SolutionSetupForm'
+import { CustomerAllProps } from '@/app/schema'
 import prisma from '@/lib/prisma'
 import { notFound } from 'next/navigation'
-import { ParamProps } from '../../page'
 
-const EditSolutionSetup = async ({ params }: ParamProps) => {
-  const { id, ssid } = await params
-  if (id.length !== 24) notFound()
+const EditSolutionSetup = async ({ params }: CustomerAllProps) => {
+  const { customerId, ssid } = await params
+  if (customerId?.length !== 24) notFound()
   if (ssid?.length !== 24) notFound()
 
   const customer = await prisma.customer?.findUnique({
-    where: { id },
+    where: { id: customerId },
     select: { solutionSetup: true },
   })
 
