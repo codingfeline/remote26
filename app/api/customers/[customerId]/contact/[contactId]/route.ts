@@ -47,3 +47,23 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
     return NextResponse.json({ error: 'Invalid data' }, { status: 500 });
   }
 }
+
+export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
+  try {
+    const { customerId, contactId } = await params
+
+    const customer = await prisma.customer.findUnique({ where: { id: customerId } });
+    if (!customer) {
+      return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
+    }
+
+    await prisma.customer.update({
+      where: { id: customerId },
+      data: { contact: customer.contact.filter(c => c.id !== contactId) },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
+  }
+}
