@@ -9,10 +9,13 @@ import { notFound } from 'next/navigation'
 import Contact from '../_components/Contact'
 import DeviceInfo from '../_components/DeviceInfo'
 import MethodInfo from '../_components/methodInfo'
+import ScanToEmailInfo from '../_components/ScanToEmail'
+import ScanToFolderInfo from '../_components/ScanToFolder'
 import ServerInfo from '../_components/ServerInfo'
+import SolutionsInfo from '../_components/SolutionSetup'
 
 export interface ParamProps {
-  params: Promise<{ id: string; mid?: string; ctid?: string }> // * making this a Promise to await below (await params)
+  params: Promise<{ id: string; mid?: string; ctid?: string; sid?: string }> // * making this a Promise to await below (await params)
 }
 
 export const metadata: Metadata = {
@@ -37,8 +40,9 @@ const page = async ({ params }: ParamProps) => {
         </div>
         <div className=" p-6 overflow-y-auto min-h-0 ">
           <ButtonIcon href="/" Icon={BackButton}>
-            back
+            back m
           </ButtonIcon>
+          {/* {JSON.stringify(customer)} */}
           <div className="p-6 space-y-8">
             {/* Header */}
             <div>
@@ -58,31 +62,20 @@ const page = async ({ params }: ParamProps) => {
             />
 
             {server.length > 0 && <ServerInfo server={customer.server} cid={cid} />}
+            <MyButton secondary label="Add Server" url={`/customer/${cid}/server/new`} />
             {device.length > 0 && (
               <DeviceInfo devicePasswords={customer.devicePassword} cid={cid} />
             )}
-            {/* Servers */}
 
-            {/* Device Passwords */}
-            {/* Server Setup */}
-            <section>
-              <h2 className="text-xl font-semibold mb-2">Solution Setup</h2>
-              <div className="space-y-4">
-                {customer.solutionSetup.map(s => (
-                  <div key={s.id} className="border rounded-xl p-4">
-                    <p>
-                      <strong>Comment:</strong> {s.comment}
-                    </p>
-                    <p>
-                      <strong>Screenshot:</strong> {s.screenshot}
-                    </p>
-                    <p>
-                      <strong>Path:</strong> {s.path}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
+            {SolutionsInfo && (
+              <SolutionsInfo solution={customer.solutionSetup} cid={cid} />
+            )}
+            {customer.scanToEmail && (
+              <ScanToEmailInfo scan2e={customer.scanToEmail} cid={cid} />
+            )}
+            {customer.scanToFolder && (
+              <ScanToFolderInfo scan2e={customer.scanToFolder} cid={cid} />
+            )}
           </div>
         </div>
       </div>
