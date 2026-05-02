@@ -19,6 +19,7 @@ export const ServerSchema = z.object({
   ip: z.string().optional(),
   username: z.string().optional(),
   password: z.string().optional(),
+  notes: z.string().optional(),
 });
 
 export const SolutionSchema = z.object({
