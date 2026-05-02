@@ -1,9 +1,11 @@
 'use client'
 
-import { Copy, Pencil } from '@/app/components'
+import { ConfirmDelete, Copy, Pencil } from '@/app/components'
 import { useCopyToClipboard } from '@/app/components/CopyToClipboard'
 import Iconner from '@/app/components/Iconner'
 import { ScanToEmail } from '@prisma/client'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import ItemContainer from './ItemContainer'
 
 interface Props {
@@ -13,6 +15,13 @@ interface Props {
 
 const ScanToEmailInfo = ({ scan2e, cid }: Props) => {
   const { copy: handleCopy } = useCopyToClipboard()
+  const router = useRouter()
+
+  const handleDelete = async (id: string) => {
+    await axios.delete(`/api/customers/${cid}/scan-to-email/${id}`)
+    router.refresh()
+  }
+
   if (!scan2e) return
 
   return (
@@ -20,7 +29,10 @@ const ScanToEmailInfo = ({ scan2e, cid }: Props) => {
       <ItemContainer title="Scan To Email">
         {scan2e.map(s => (
           <div key={s.id} className="border rounded-xl p-4">
-            <Iconner href={`/customer/${cid}/contact/${s.id}`} Icon={Pencil} />
+            <div className="flex justify-between">
+              <Iconner href={`/customer/${cid}/scan-to-email/${s.id}`} Icon={Pencil} />
+              <ConfirmDelete onConfirm={() => handleDelete(s.id)} />
+            </div>
             <p>
               <strong>hostname:</strong> {s.hostname}
               {s.hostname && <Iconner Icon={Copy} func={() => handleCopy(s.hostname)} />}
