@@ -51,28 +51,40 @@ const FilterCustomersList = ({ names, requireSearch, horizontal }: Prop) => {
           </div>
         </div>
       ) : (
-        <Flex my="2">
-          <Container size="3">
-            <Box width="5" className="max-w-5xl">
-              <TextField.Root
-                placeholder="filter customer"
-                onChange={e => setSearchTerm(e.target.value)}
-              >
-                <TextField.Slot>
-                  <FaSearch height="16" width="16" />
-                </TextField.Slot>
-              </TextField.Root>
-            </Box>
-            {filtered.map(t => (
-              <Flex key={t.id} my="1" wrap="nowrap" align="center">
-                <ButtonIcon href={`/customer/${t.id}`}>{t.name}</ButtonIcon>
-                {pathname === `/customer/${t.id}` && (
-                  <Eye className="text-violet-600 ml-1 shrink-0" />
-                )}
-              </Flex>
-            ))}
-          </Container>
-        </Flex>
+        <div className="my-2">
+          <div className="mb-2">
+            <TextField.Root
+              placeholder="filter customer"
+              onChange={e => setSearchTerm(e.target.value)}
+            >
+              <TextField.Slot>
+                <FaSearch height="16" width="16" />
+              </TextField.Slot>
+            </TextField.Root>
+          </div>
+          <div className="flex flex-wrap gap-2 md:flex-col md:flex-nowrap md:gap-0">
+            {filtered.map(t => {
+              const isActive = pathname === `/customer/${t.id}`
+              return (
+                <div key={t.id} className="flex items-center md:my-1">
+                  <ButtonIcon
+                    href={`/customer/${t.id}`}
+                    Icon={isActive ? Eye : undefined}
+                    classes="md:hidden"
+                  >
+                    {t.name}
+                  </ButtonIcon>
+                  <ButtonIcon href={`/customer/${t.id}`} classes="hidden md:flex">
+                    {t.name}
+                  </ButtonIcon>
+                  {isActive && (
+                    <Eye className="text-violet-600 ml-1 shrink-0 hidden md:inline" />
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
       )}
     </div>
   )

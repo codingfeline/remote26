@@ -53,11 +53,11 @@ const page = async ({ params }: ParamProps) => {
           <div className="px-1 md:px-6 space-y-4">
             {/* Header */}
             <div className="flex items-center justify-between border-t-4 border-violet-400 md:border-none mt-2 md:mt-0">
-              <div className="flex items-center gap-2 ">
-                <h1 className="text-2xl font-bold mt-4 md:mt-0 ">{customer.name}</h1>
+              <div className="flex items-center gap-2 mt-4 md:mt-0">
+                <h1 className="text-2xl font-bold">{customer.name}</h1>
                 <Iconner href={`/customer/${cid}/edit`} Icon={Pencil} />
               </div>
-              <p className="text-gray-600 flex flex-col md:flex-row gap-2 mt-4 md:mt-0">
+              <p className="text-gray-600 flex flex-col md:flex-row gap-2 mt-4 md:mt-0 mr-1">
                 Solution: <span>{customer.solution}</span>
               </p>
             </div>
