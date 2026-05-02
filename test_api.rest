@@ -66,3 +66,58 @@ Content-Type: application/json
   "password": "+1234567890",
   "ip": "192.168.1.1", "notes": "some notes2 22"
 }
+
+### ── Scan To Email ──────────────────────────────────────────
+
+@cid4 = 609e0c61f3bb853bb88107a1
+@steid = 64e91b15202bb54274560f0e
+
+###
+post {{url-26}}/api/customers/{{cid4}}/scan-to-email
+Content-Type: application/json
+
+{
+  "hostname": "smtp.example.com",
+  "username": "scanner@example.com",
+  "password": "pass123",
+  "port": "587"
+}
+###
+patch {{url-26}}/api/customers/{{cid4}}/scan-to-email/{{steid}}
+Content-Type: application/json
+
+{
+  "hostname": "smtp.updated.com",
+  "username": "scanner@updated.com",
+  "password": "newpass456",
+  "port": "465"
+}
+###
+delete {{url-26}}/api/customers/{{cid4}}/scan-to-email/{{steid}}
+
+### ── Scan To Folder ─────────────────────────────────────────
+
+@stfid = 64e91b5f202bb54274560f0f
+
+###
+post {{url-26}}/api/customers/{{cid4}}/scan-to-folder
+Content-Type: application/json
+
+{
+  "hostname": "fileserver.example.com",
+  "folder": "\\\\fileserver\\scans",
+  "username": "scanner",
+  "password": "folderpass"
+}
+###
+patch {{url-26}}/api/customers/{{cid4}}/scan-to-folder/{{stfid}}
+Content-Type: application/json
+
+{
+  "hostname": "fileserver.updated.com",
+  "folder": "\\\\fileserver\\scans\\updated",
+  "username": "scanner2",
+  "password": "newfolderpass"
+}
+###
+delete {{url-26}}/api/customers/{{cid4}}/scan-to-folder/{{stfid}}
