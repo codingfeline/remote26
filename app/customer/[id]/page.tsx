@@ -48,13 +48,13 @@ const page = async ({ params }: ParamProps) => {
         <div className="md:border-r overflow-y-auto bg-gray-100 p-2 md:sticky md:top-0 md:max-h-screen">
           <CustomerList requireSearch={true} />
         </div>
-        <div className=" p-2 overflow-y-auto min-h-0 ">
+        <div className=" md:p-2 overflow-y-auto min-h-0 ">
           {/* {JSON.stringify(customer)} */}
-          <div className="px-6 space-y-4">
+          <div className="px-1 md:px-6 space-y-4">
             {/* Header */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold">{customer.name}</h1>
+                <h1 className="text-2xl font-bold mt-3 md:mt-0">{customer.name}</h1>
                 <Iconner href={`/customer/${cid}/edit`} Icon={Pencil} />
               </div>
               <p className="text-gray-600">Solution: {customer.solution}</p>
