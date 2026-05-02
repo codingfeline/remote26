@@ -19,15 +19,17 @@ const Solution = ({ solution, cid }: Props) => {
     <section className="compo">
       <ItemContainer title="Solution Setup">
         {solution.map(s => (
-          <div key={s.id} className="border rounded-xl p-4">
-            <Iconner href={`/customer/${cid}/solution/${s.id}`} Icon={Pencil} />
+          <div key={s.id} className="border border-violet-400 rounded-t-lg shadow-sm overflow-hidden">
+            <div className="flex bg-violet-200 px-4 py-2">
+              <Iconner href={`/customer/${cid}/solution/${s.id}`} Icon={Pencil} />
+            </div>
+            <div className="p-4">
             <p>
               <strong>Comment:</strong> {s.comment}
             </p>
             <p>
               <strong>Path:</strong> {s.path}
               {s.path && <Iconner Icon={Copy} func={() => handleCopy(s.path)} />}
-              {/* <Iconner Icon={Copy} func={() => handleCopy(s.path)}  */}
             </p>
             <p>
               <strong>Screenshot:</strong> {s.screenshot}
@@ -35,6 +37,7 @@ const Solution = ({ solution, cid }: Props) => {
                 <Iconner Icon={Copy} func={() => handleCopy(s.screenshot)} />
               )}
             </p>
+            </div>
           </div>
         ))}
       </ItemContainer>

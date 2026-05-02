@@ -28,11 +28,12 @@ const ServerInfo = ({ server, cid }: Props) => {
     <section className="compo">
       <ItemContainer title="Server">
         {server.map(s => (
-          <div key={s.id} className="border rounded-xl p-4">
-            <div className="flex justify-between">
+          <div key={s.id} className="border border-violet-400 rounded-t-lg shadow-sm overflow-hidden">
+            <div className="flex justify-between bg-violet-200 px-4 py-2">
               <Iconner href={`/customer/${cid}/server/${s.id}`} Icon={Pencil} />
               <ConfirmDelete onConfirm={() => handleDelete(s.id)} />
             </div>
+            <div className="p-4">
             <p>
               <strong>Name:</strong> {s.name}
             </p>
@@ -53,9 +54,9 @@ const ServerInfo = ({ server, cid }: Props) => {
               <Iconner
                 Icon={Copy}
                 {...(s.notes && { func: () => handleCopy(s.notes!) })}
-                // only add func if notes is not empty
               />
             </p>
+            </div>
           </div>
         ))}
       </ItemContainer>

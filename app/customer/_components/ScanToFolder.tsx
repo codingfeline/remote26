@@ -28,11 +28,12 @@ const ScanToFolderInfo = ({ scan2e, cid }: Props) => {
     <section className="compo">
       <ItemContainer title="Scan To Folder">
         {scan2e.map(s => (
-          <div key={s.id} className="border rounded-xl p-4">
-            <div className="flex justify-between">
+          <div key={s.id} className="border border-violet-400 rounded-t-lg shadow-sm overflow-hidden">
+            <div className="flex justify-between bg-violet-200 px-4 py-2">
               <Iconner href={`/customer/${cid}/scan-to-folder/${s.id}`} Icon={Pencil} />
               <ConfirmDelete onConfirm={() => handleDelete(s.id)} />
             </div>
+            <div className="p-4">
             <p>
               <strong>hostname:</strong> {s.hostname}
               {s.hostname && <Iconner Icon={Copy} func={() => handleCopy(s.hostname)} />}
@@ -49,6 +50,7 @@ const ScanToFolderInfo = ({ scan2e, cid }: Props) => {
               <strong>password:</strong> {s.password}
               {s.password && <Iconner Icon={Copy} func={() => handleCopy(s.password)} />}
             </p>
+            </div>
           </div>
         ))}
       </ItemContainer>

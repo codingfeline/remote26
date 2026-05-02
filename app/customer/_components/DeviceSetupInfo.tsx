@@ -28,11 +28,12 @@ const DeviceSetupInfo = ({ deviceSetup, cid }: Props) => {
     <section className="compo">
       <ItemContainer title="Device Setup">
         {deviceSetup.map(s => (
-          <div key={s.id} className="border rounded-xl p-4">
-            <div className="flex justify-between">
+          <div key={s.id} className="border border-violet-400 rounded-t-lg shadow-sm overflow-hidden">
+            <div className="flex justify-between bg-violet-200 px-4 py-2">
               <Iconner href={`/customer/${cid}/device-setup/${s.id}`} Icon={Pencil} />
               <ConfirmDelete onConfirm={() => handleDelete(s.id)} />
             </div>
+            <div className="p-4">
             <p>
               <strong>Comment:</strong> {s.comment}
             </p>
@@ -44,6 +45,7 @@ const DeviceSetupInfo = ({ deviceSetup, cid }: Props) => {
               <strong>Path:</strong> {s.path}
               {s.path && <Iconner Icon={Copy} func={() => handleCopy(s.path)} />}
             </p>
+            </div>
           </div>
         ))}
       </ItemContainer>

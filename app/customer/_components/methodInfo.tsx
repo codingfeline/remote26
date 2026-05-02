@@ -31,11 +31,12 @@ const MethodInfo = ({ method, cid }: Props) => {
           const link = `/customer/${cid}/method/${m.id}`
 
           return (
-            <div key={m.id} className="border rounded-lg p-4 shadow-sm">
-              <div className="flex justify-between">
+            <div key={m.id} className="border border-violet-400 rounded-t-lg shadow-sm overflow-hidden">
+              <div className="flex justify-between bg-violet-200 px-4 py-2">
                 <Iconner href={link} Icon={Pencil} />
                 <ConfirmDelete onConfirm={() => handleDelete(m.id)} />
               </div>
+              <div className="p-4">
               <p>
                 <strong>Name:</strong> {m.methodName}
               </p>
@@ -57,6 +58,7 @@ const MethodInfo = ({ method, cid }: Props) => {
                 <strong>Notes:</strong>{' '}
                 <span className="flex self-start whitespace-pre">{m.notes}</span>
               </p>
+            </div>
             </div>
           )
         })}

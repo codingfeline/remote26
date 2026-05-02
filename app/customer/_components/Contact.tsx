@@ -28,23 +28,24 @@ const Contact = ({ contact, cid }: Props) => {
     <section className="compo">
       <ItemContainer title="Contact">
         {contact.map(c => (
-          <div key={c.id} className="border rounded-xl p-4">
-            <div className="flex justify-between">
+          <div key={c.id} className="border border-violet-400 rounded-t-lg shadow-sm overflow-hidden">
+            <div className="flex justify-between bg-violet-200 px-4 py-2">
               <Iconner href={`/customer/${cid}/contact/${c.id}`} Icon={Pencil} />
               <ConfirmDelete onConfirm={() => handleDelete(c.id)} />
             </div>
+            <div className="p-4">
             <p>
               <strong>Name:</strong> {c.name}
             </p>
             <p>
               <strong>Tel:</strong> {c.tel}
               {c.tel && <Iconner Icon={Copy} func={() => handleCopy(c.tel)} />}
-              {/* <Iconner Icon={Copy} func={() => handleCopy(c.tel)}  */}
             </p>
             <p>
               <strong>Email:</strong> {c.email}
               {c.email && <Iconner Icon={Copy} func={() => handleCopy(c.email)} />}
             </p>
+            </div>
           </div>
         ))}
       </ItemContainer>
