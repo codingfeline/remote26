@@ -69,7 +69,7 @@ export type CustomerAllProps = {
   params: Promise<
     {
       customerId?: string, methodId?: string, contactId?: string,
-      sid?: string, did?: string, dsid?: string, deviceId?: string, deviceSetupId?: string, solutionId?: string,
+      sid?: string, did?: string, dsid?: string, ssid?: string, deviceId?: string, deviceSetupId?: string, solutionId?: string,
       steid?: string, stfid?: string
     }>
 }
