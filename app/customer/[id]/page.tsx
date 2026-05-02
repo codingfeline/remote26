@@ -87,9 +87,15 @@ const page = async ({ params }: ParamProps) => {
               url={`/customer/${cid}/device-setup/new`}
             />
 
-            {SolutionsInfo.length > 0 && (
+            {customer.solutionSetup.length > 0 && (
               <SolutionsInfo solution={customer.solutionSetup} cid={cid} />
             )}
+            <MyButton
+              secondary
+              label="Add Solution Setup"
+              url={`/customer/${cid}/solution-setup/new`}
+            />
+
             {customer.scanToEmail.length > 0 && (
               <ScanToEmailInfo scan2e={customer.scanToEmail} cid={cid} />
             )}
