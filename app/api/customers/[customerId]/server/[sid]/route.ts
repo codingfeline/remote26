@@ -9,7 +9,7 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
     // validate input
     const data = ServerSchema.parse(body);
 
-    const { customerId, serverId } = await params
+    const { customerId, sid } = await params
 
     // get existing customer
     const customer = await prisma.customer.findUnique({
@@ -22,7 +22,7 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
 
     // update method info
     const updatedServer = customer.server.map((server) => {
-      if (server.id === serverId) {
+      if (server.id === sid) {
         return {
           ...server,
           ...data,
@@ -47,5 +47,25 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: z.flattenError(error) }, { status: 400 });
     }
     return NextResponse.json({ error: 'Invalid data' }, { status: 500 });
+  }
+}
+
+export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
+  try {
+    const { customerId, sid } = await params
+
+    const customer = await prisma.customer.findUnique({ where: { id: customerId } });
+    if (!customer) {
+      return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
+    }
+
+    await prisma.customer.update({
+      where: { id: customerId },
+      data: { server: customer.server.filter(s => s.id !== sid) },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
   }
 }
