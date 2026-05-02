@@ -52,3 +52,17 @@ Content-Type: application/json
 }
 ###
 get {{url-26-cust}}
+
+@cid3 = 69d279db2b0f0f682020fd4e
+@sid = 6085d01cc7e5168210462bc7
+
+###
+patch {{url-26}}/api/customers/{{cid3}}/server/{{sid}}
+Content-Type: application/json
+
+{
+  "name": "John Doe 22",
+  "username": "john.doe@example.class",
+  "password": "+1234567890",
+  "ip": "192.168.1.1", "notes": "some notes2 22"
+}
