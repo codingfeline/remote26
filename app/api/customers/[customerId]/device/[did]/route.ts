@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse, prisma } from '@/app/api';
+import { NextRequest, NextResponse, ObjectId, prisma } from '@/app/api';
 import { CustomerAllProps, DevicePasswordSchema } from '@/app/schema';
 import { z } from 'zod';
 
@@ -21,7 +21,17 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
 
     await prisma.customer.update({
       where: { id: customerId },
-      data: { devicePassword: updatedDevices },
+      data: {
+        devicePassword: updatedDevices,
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Updated device — make: ${data.make || '—'}, username: ${data.username || '—'}, password: ${data.password || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
+      },
     });
 
     return NextResponse.json({ success: true });
@@ -42,9 +52,21 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
+    const deleted = customer.devicePassword.find(d => d.id === did)
+
     await prisma.customer.update({
       where: { id: customerId },
-      data: { devicePassword: customer.devicePassword.filter(d => d.id !== did) },
+      data: {
+        devicePassword: customer.devicePassword.filter(d => d.id !== did),
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Deleted device — make: ${deleted?.make || '—'}, username: ${deleted?.username || '—'}, password: ${deleted?.password || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
+      },
     });
 
     return NextResponse.json({ success: true });

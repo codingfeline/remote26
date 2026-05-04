@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse, prisma } from '@/app/api';
+import { NextRequest, NextResponse, ObjectId, prisma } from '@/app/api';
 import { CustomerAllProps, ScanToEmailSchema } from '@/app/schema';
 import { z } from 'zod';
 
@@ -21,7 +21,17 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
 
     await prisma.customer.update({
       where: { id: customerId },
-      data: { scanToEmail: updated },
+      data: {
+        scanToEmail: updated,
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Updated scan to email — hostname: ${data.hostname || '—'}, username: ${data.username || '—'}, password: ${data.password || '—'}, port: ${data.port || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
+      },
     });
 
     return NextResponse.json({ success: true });
@@ -42,9 +52,21 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
+    const deleted = customer.scanToEmail.find(e => e.id === steid)
+
     await prisma.customer.update({
       where: { id: customerId },
-      data: { scanToEmail: customer.scanToEmail.filter(e => e.id !== steid) },
+      data: {
+        scanToEmail: customer.scanToEmail.filter(e => e.id !== steid),
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Deleted scan to email — hostname: ${deleted?.hostname || '—'}, username: ${deleted?.username || '—'}, password: ${deleted?.password || '—'}, port: ${deleted?.port || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
+      },
     });
 
     return NextResponse.json({ success: true });

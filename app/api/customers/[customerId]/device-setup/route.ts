@@ -23,7 +23,17 @@ export async function POST(req: NextRequest, { params }: CustomerAllProps) {
 
     await prisma.customer.update({
       where: { id: customerId },
-      data: { deviceSetup: [...customer.deviceSetup, newEntry] },
+      data: {
+        deviceSetup: [...customer.deviceSetup, newEntry],
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Added device setup — comment: ${newEntry.comment || '—'}, screenshot: ${newEntry.screenshot || '—'}, path: ${newEntry.path || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
+      },
     })
 
     return NextResponse.json(newEntry, { status: 201 });

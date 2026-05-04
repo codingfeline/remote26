@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse, prisma } from '@/app/api';
+import { NextRequest, NextResponse, ObjectId, prisma } from '@/app/api';
 import { CustomerAllProps, SolutionSchema } from '@/app/schema';
 import { z } from 'zod';
 
@@ -21,7 +21,17 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
 
     await prisma.customer.update({
       where: { id: customerId },
-      data: { solutionSetup: updated },
+      data: {
+        solutionSetup: updated,
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Updated solution setup — comment: ${data.comment || '—'}, screenshot: ${data.screenshot || '—'}, path: ${data.path || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
+      },
     });
 
     return NextResponse.json({ success: true });
@@ -42,9 +52,21 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
+    const deleted = customer.solutionSetup.find(e => e.id === ssid)
+
     await prisma.customer.update({
       where: { id: customerId },
-      data: { solutionSetup: customer.solutionSetup.filter(e => e.id !== ssid) },
+      data: {
+        solutionSetup: customer.solutionSetup.filter(e => e.id !== ssid),
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Deleted solution setup — comment: ${deleted?.comment || '—'}, screenshot: ${deleted?.screenshot || '—'}, path: ${deleted?.path || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
+      },
     });
 
     return NextResponse.json({ success: true });

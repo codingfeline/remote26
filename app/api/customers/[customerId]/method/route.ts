@@ -30,11 +30,16 @@ export async function POST(req: NextRequest, { params }: CustIDProp) {
     await prisma.customer.update({
       where: { id: customerId },
       data: {
-        methodInfo: [
-          ...customer.methodInfo,
-          newMethodInfo,
-        ]
-      }
+        methodInfo: [...customer.methodInfo, newMethodInfo],
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Added method — name: ${newMethodInfo.methodName || '—'}, url: ${newMethodInfo.url || '—'}, username: ${newMethodInfo.username || '—'}, password: ${newMethodInfo.password || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
+      },
     })
     return NextResponse.json(newMethodInfo, { status: 201 });
 

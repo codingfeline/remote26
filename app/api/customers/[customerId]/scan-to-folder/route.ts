@@ -24,7 +24,17 @@ export async function POST(req: NextRequest, { params }: CustomerAllProps) {
 
     await prisma.customer.update({
       where: { id: customerId },
-      data: { scanToFolder: [...customer.scanToFolder, newEntry] },
+      data: {
+        scanToFolder: [...customer.scanToFolder, newEntry],
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Added scan to folder — hostname: ${newEntry.hostname || '—'}, folder: ${newEntry.folder || '—'}, username: ${newEntry.username || '—'}, password: ${newEntry.password || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
+      },
     })
 
     return NextResponse.json(newEntry, { status: 201 });

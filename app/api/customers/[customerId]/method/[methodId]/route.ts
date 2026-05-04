@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse, prisma } from '@/app/api';
+import { NextRequest, NextResponse, ObjectId, prisma } from '@/app/api';
 import { CustomerAllProps, MethodInfoSchema } from '@/app/schema';
 import { z } from 'zod';
 
@@ -36,6 +36,14 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
       where: { id: customerId },
       data: {
         methodInfo: updatedMethod,
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Updated method — name: ${data.methodName || '—'}, url: ${data.url || '—'}, username: ${data.username || '—'}, password: ${data.password || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
       },
     });
 
@@ -57,9 +65,21 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
+    const deleted = customer.methodInfo.find(m => m.id === methodId)
+
     await prisma.customer.update({
       where: { id: customerId },
-      data: { methodInfo: customer.methodInfo.filter(m => m.id !== methodId) },
+      data: {
+        methodInfo: customer.methodInfo.filter(m => m.id !== methodId),
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Deleted method — name: ${deleted?.methodName || '—'}, url: ${deleted?.url || '—'}, username: ${deleted?.username || '—'}, password: ${deleted?.password || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
+      },
     });
 
     return NextResponse.json({ success: true });

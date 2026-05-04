@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse, prisma } from '@/app/api';
+import { NextRequest, NextResponse, ObjectId, prisma } from '@/app/api';
 import { ContactInfoSchema, CustomerAllProps } from '@/app/schema';
 import { z } from 'zod';
 
@@ -36,6 +36,14 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
       where: { id: customerId },
       data: {
         contact: updatedContact,
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Updated contact — name: ${data.name || '—'}, email: ${data.email || '—'}, tel: ${data.tel || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
       },
     });
 
@@ -57,9 +65,21 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
+    const deleted = customer.contact.find(c => c.id === contactId)
+
     await prisma.customer.update({
       where: { id: customerId },
-      data: { contact: customer.contact.filter(c => c.id !== contactId) },
+      data: {
+        contact: customer.contact.filter(c => c.id !== contactId),
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Deleted contact — name: ${deleted?.name || '—'}, email: ${deleted?.email || '—'}, tel: ${deleted?.tel || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
+      },
     });
 
     return NextResponse.json({ success: true });

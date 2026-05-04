@@ -25,6 +25,14 @@ export async function POST(req: NextRequest, { params }: CustomerAllProps) {
       where: { id: customerId },
       data: {
         devicePassword: [...customer.devicePassword, newDevice],
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Added device — make: ${newDevice.make || '—'}, username: ${newDevice.username || '—'}, password: ${newDevice.password || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
       },
     })
 
