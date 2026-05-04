@@ -40,7 +40,7 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
           ...(customer.logs ?? []),
           {
             id: new ObjectId().toString(),
-            message: `Updated method — name: ${data.methodName || '—'}, url: ${data.url || '—'}, username: ${data.username || '—'}, password: ${data.password || '—'}`,
+            message: `Updated method — name: ${data.methodName || '—'}, url: ${data.url || '—'}, username: ${data.username || '—'}, password: ${data.password || '—'}, notes: ${data.notes || '—'}`,
             timestamp: new Date(),
           },
         ],
@@ -75,7 +75,7 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
           ...(customer.logs ?? []),
           {
             id: new ObjectId().toString(),
-            message: `Deleted method — name: ${deleted?.methodName || '—'}, url: ${deleted?.url || '—'}, username: ${deleted?.username || '—'}, password: ${deleted?.password || '—'}`,
+            message: `Deleted method — name: ${deleted?.methodName || '—'}, url: ${deleted?.url || '—'}, username: ${deleted?.username || '—'}, password: ${deleted?.password || '—'}, notes: ${deleted?.notes || '—'}`,
             timestamp: new Date(),
           },
         ],

@@ -35,7 +35,7 @@ export async function POST(req: NextRequest, { params }: CustIDProp) {
           ...(customer.logs ?? []),
           {
             id: new ObjectId().toString(),
-            message: `Added method — name: ${newMethodInfo.methodName || '—'}, url: ${newMethodInfo.url || '—'}, username: ${newMethodInfo.username || '—'}, password: ${newMethodInfo.password || '—'}`,
+            message: `Added method — name: ${newMethodInfo.methodName || '—'}, url: ${newMethodInfo.url || '—'}, username: ${newMethodInfo.username || '—'}, password: ${newMethodInfo.password || '—'}, notes: ${newMethodInfo.notes || '—'}`,
             timestamp: new Date(),
           },
         ],
