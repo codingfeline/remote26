@@ -4,7 +4,7 @@ import { useCookieConsent } from '@/providers/CookieConsentProvider'
 import Script from 'next/script'
 import { useState } from 'react'
 
-const GA_ID = 'G-VXMNGDLCJV'
+const GA_ID = ''
 
 export default function CookieConsentManager() {
   const { consent, updateConsent, hasDecided } = useCookieConsent()
@@ -35,7 +35,7 @@ export default function CookieConsentManager() {
 
       {/* --- Initial Banner --- */}
       {!hasDecided && (
-        <div className="fixed bottom-0 left-0 w-full bg-gray-100 p-4 text-center shadow-[0_-2px_10px_rgba(0,0,0,0.1)] z-[1000]">
+        <div className="fixed bottom-0 left-0 w-full bg-gray-100 p-4 text-center shadow-[0_-2px_10px_rgba(0,0,0,0.1)] z-1000">
           <p>
             We use cookies for analytics and to embed external content such as Google
             Maps.

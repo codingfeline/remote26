@@ -2,7 +2,7 @@
 
 import { MyButton } from '@/app/components'
 import ButtonIcon from '@/app/components/ButtonIcon'
-import { Box, Container, Flex, TextField } from '@radix-ui/themes'
+import { TextField } from '@radix-ui/themes'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { FaSearch, FaTimes } from 'react-icons/fa'
@@ -20,7 +20,7 @@ interface Prop {
 
 const FilterCustomersList = ({ names, requireSearch, horizontal }: Prop) => {
   const [searchTerm, setSearchTerm] = useState(() =>
-    typeof window !== 'undefined' ? sessionStorage.getItem('customerFilter') ?? '' : ''
+    typeof window !== 'undefined' ? (sessionStorage.getItem('customerFilter') ?? '') : '',
   )
   const pathname = usePathname()
 
@@ -42,14 +42,18 @@ const FilterCustomersList = ({ names, requireSearch, horizontal }: Prop) => {
           <div className="mb-2">
             <TextField.Root
               placeholder="filter customer"
-              value={searchTerm} onChange={e => handleSearch(e.target.value)}
+              value={searchTerm}
+              onChange={e => handleSearch(e.target.value)}
             >
               <TextField.Slot>
                 <FaSearch height="16" width="16" />
               </TextField.Slot>
               {searchTerm && (
                 <TextField.Slot side="right">
-                  <FaTimes className="cursor-pointer text-gray-400 hover:text-gray-600" onClick={() => handleSearch('')} />
+                  <FaTimes
+                    className="cursor-pointer text-gray-400 hover:text-gray-600"
+                    onClick={() => handleSearch('')}
+                  />
                 </TextField.Slot>
               )}
             </TextField.Root>
@@ -67,14 +71,18 @@ const FilterCustomersList = ({ names, requireSearch, horizontal }: Prop) => {
           <div className="mb-2">
             <TextField.Root
               placeholder="filter customer"
-              value={searchTerm} onChange={e => handleSearch(e.target.value)}
+              value={searchTerm}
+              onChange={e => handleSearch(e.target.value)}
             >
               <TextField.Slot>
                 <FaSearch height="16" width="16" />
               </TextField.Slot>
               {searchTerm && (
                 <TextField.Slot side="right">
-                  <FaTimes className="cursor-pointer text-gray-400 hover:text-gray-600" onClick={() => handleSearch('')} />
+                  <FaTimes
+                    className="cursor-pointer text-gray-400 hover:text-gray-600"
+                    onClick={() => handleSearch('')}
+                  />
                 </TextField.Slot>
               )}
             </TextField.Root>
