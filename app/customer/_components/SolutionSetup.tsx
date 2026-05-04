@@ -36,20 +36,15 @@ const Solution = ({ solution, cid }: Props) => {
               <Iconner href={`/customer/${cid}/solution-setup/${s.id}`} Icon={Pencil} />
               <ConfirmDelete onConfirm={() => handleDelete(s.id)} />
             </div>
-            <div className="p-4">
-              <p>
-                <strong>Comment:</strong> {s.comment}
-              </p>
-              <p>
-                <strong>Path:</strong> {s.path}
-                {s.path && <Iconner Icon={Copy} func={() => handleCopy(s.path)} />}
-              </p>
-              <p>
-                <strong>Screenshot:</strong> {s.screenshot}
-                {s.screenshot && (
-                  <Iconner Icon={Copy} func={() => handleCopy(s.screenshot)} />
-                )}
-              </p>
+            <div className="p-4 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 items-baseline">
+              <strong className="text-right">Comment:</strong>
+              <span>{s.comment}</span>
+
+              <strong className="text-right">Path:</strong>
+              <span className="flex items-center justify-between">{s.path}{s.path && <Iconner Icon={Copy} func={() => handleCopy(s.path)} />}</span>
+
+              <strong className="text-right">Screenshot:</strong>
+              <span className="flex items-center justify-between">{s.screenshot}{s.screenshot && <Iconner Icon={Copy} func={() => handleCopy(s.screenshot)} />}</span>
             </div>
           </div>
         ))}

@@ -33,18 +33,15 @@ const Contact = ({ contact, cid }: Props) => {
               <Iconner href={`/customer/${cid}/contact/${c.id}`} Icon={Pencil} />
               <ConfirmDelete onConfirm={() => handleDelete(c.id)} />
             </div>
-            <div className="p-4">
-            <p>
-              <strong>Name:</strong> {c.name}
-            </p>
-            <p>
-              <strong>Tel:</strong> {c.tel}
-              {c.tel && <Iconner Icon={Copy} func={() => handleCopy(c.tel)} />}
-            </p>
-            <p>
-              <strong>Email:</strong> {c.email}
-              {c.email && <Iconner Icon={Copy} func={() => handleCopy(c.email)} />}
-            </p>
+            <div className="p-4 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 items-baseline">
+              <strong className="text-right">Name:</strong>
+              <span>{c.name}</span>
+
+              <strong className="text-right">Tel:</strong>
+              <span className="flex items-center justify-between">{c.tel}{c.tel && <Iconner Icon={Copy} func={() => handleCopy(c.tel)} />}</span>
+
+              <strong className="text-right">Email:</strong>
+              <span className="flex items-center justify-between">{c.email}{c.email && <Iconner Icon={Copy} func={() => handleCopy(c.email)} />}</span>
             </div>
           </div>
         ))}

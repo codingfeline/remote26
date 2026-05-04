@@ -28,34 +28,29 @@ const ServerInfo = ({ server, cid }: Props) => {
     <section className="compo">
       <ItemContainer title="Server">
         {server.map(s => (
-          <div key={s.id} className="border border-violet-400 rounded-t-lg shadow-sm overflow-hidden">
+          <div
+            key={s.id}
+            className="border border-violet-400 rounded-t-lg shadow-sm overflow-hidden"
+          >
             <div className="flex justify-between bg-violet-200 px-4 py-2">
               <Iconner href={`/customer/${cid}/server/${s.id}`} Icon={Pencil} />
               <ConfirmDelete onConfirm={() => handleDelete(s.id)} />
             </div>
-            <div className="p-4">
-            <p>
-              <strong>Name:</strong> {s.name}
-            </p>
-            <p>
-              <strong>IP:</strong> {s.ip}
-              <Iconner Icon={Copy} func={() => handleCopy(s.ip)} />
-            </p>
-            <p>
-              <strong>username:</strong> {s.username}
-              <Iconner Icon={Copy} func={() => handleCopy(s.username)} />
-            </p>
-            <p>
-              <strong>Password:</strong> {s.password}
-              <Iconner Icon={Copy} func={() => handleCopy(s.password)} />
-            </p>
-            <p>
-              <strong>Notes:</strong> {s.notes}
-              <Iconner
-                Icon={Copy}
-                {...(s.notes && { func: () => handleCopy(s.notes!) })}
-              />
-            </p>
+            <div className="p-4 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 items-baseline">
+              <strong className="text-right">Name:</strong>
+              <span className="flex items-center justify-between">{s.name}{s.name && <Iconner Icon={Copy} func={() => handleCopy(s.name)} />}</span>
+
+              <strong className="text-right">IP:</strong>
+              <span className="flex items-center justify-between">{s.ip}{s.ip && <Iconner Icon={Copy} func={() => handleCopy(s.ip)} />}</span>
+
+              <strong className="text-right">Username:</strong>
+              <span className="flex items-center justify-between">{s.username}{s.username && <Iconner Icon={Copy} func={() => handleCopy(s.username)} />}</span>
+
+              <strong className="text-right">Password:</strong>
+              <span className="flex items-center justify-between">{s.password}{s.password && <Iconner Icon={Copy} func={() => handleCopy(s.password)} />}</span>
+
+              <strong className="text-right">Notes:</strong>
+              <span className="whitespace-pre-wrap">{s.notes}</span>
             </div>
           </div>
         ))}

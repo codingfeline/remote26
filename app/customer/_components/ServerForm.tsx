@@ -6,7 +6,7 @@ import { useFormSubmit } from '@/app/hooks/useFormSubmit'
 import { ServerSchema } from '@/app/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Server } from '@prisma/client'
-import { Container, TextField } from '@radix-ui/themes'
+import { Container, TextArea, TextField } from '@radix-ui/themes'
 import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -83,16 +83,16 @@ const ServerForm = ({ server }: { server?: Server }) => {
           />
           <ErrorMessage>{errors.password?.message}</ErrorMessage>
         </label>
-        {/* <label htmlFor="notes">
+        <label htmlFor="notes">
           Notes
           <TextArea
-            defaultValue={server?.notes}
+            defaultValue={server?.notes ?? undefined}
             placeholder="Notes"
             id="notes"
             {...register('notes')}
           />
           <ErrorMessage>{errors.notes?.message}</ErrorMessage>
-        </label> */}
+        </label>
         <MyButton
           disable={submitting}
           label={submitting ? 'Saving...' : 'Save'}

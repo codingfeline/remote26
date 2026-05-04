@@ -36,29 +36,22 @@ const MethodInfo = ({ method, cid }: Props) => {
                 <Iconner href={link} Icon={Pencil} />
                 <ConfirmDelete onConfirm={() => handleDelete(m.id)} />
               </div>
-              <div className="p-4">
-              <p>
-                <strong>Name:</strong> {m.methodName}
-              </p>
-              <p>
-                <strong>URL:</strong>
-                {m.url}
+              <div className="p-4 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 items-baseline">
+                <strong className="text-right">Name:</strong>
+                <span>{m.methodName}</span>
 
-                <Iconner Icon={Copy} func={() => handleCopy(m.url)} />
-              </p>
-              <p>
-                <strong>Username:</strong> {m.username}
-                <Iconner Icon={Copy} func={() => handleCopy(m.username)} />
-              </p>
-              <p>
-                <strong>Password:</strong> {m.password}
-                <Iconner Icon={Copy} func={() => handleCopy(m.password)} />
-              </p>
-              <p className="note">
-                <strong>Notes:</strong>{' '}
-                <span className="flex self-start whitespace-pre">{m.notes}</span>
-              </p>
-            </div>
+                <strong className="text-right">URL:</strong>
+                <span className="flex items-center justify-between">{m.url}<Iconner Icon={Copy} func={() => handleCopy(m.url)} /></span>
+
+                <strong className="text-right">Username:</strong>
+                <span className="flex items-center justify-between">{m.username}<Iconner Icon={Copy} func={() => handleCopy(m.username)} /></span>
+
+                <strong className="text-right">Password:</strong>
+                <span className="flex items-center justify-between">{m.password}<Iconner Icon={Copy} func={() => handleCopy(m.password)} /></span>
+
+                <strong className="text-right">Notes:</strong>
+                <span className="whitespace-pre-wrap">{m.notes}</span>
+              </div>
             </div>
           )
         })}

@@ -33,18 +33,15 @@ const DeviceInfo = ({ devicePasswords: device, cid }: Props) => {
               <Iconner href={`/customer/${cid}/device/${s.id}`} Icon={Pencil} />
               <ConfirmDelete onConfirm={() => handleDelete(s.id)} />
             </div>
-            <div className="p-4">
-            <p>
-              <strong>Make:</strong> {s.make}
-            </p>
-            <p>
-              <strong>username:</strong> {s.username}
-              {s.username && <Iconner Icon={Copy} func={() => handleCopy(s.username)} />}
-            </p>
-            <p>
-              <strong>password:</strong> {s.password}
-              {s.password && <Iconner Icon={Copy} func={() => handleCopy(s.password!)} />}
-            </p>
+            <div className="p-4 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 items-baseline">
+              <strong className="text-right">Make:</strong>
+              <span>{s.make}</span>
+
+              <strong className="text-right">Username:</strong>
+              <span className="flex items-center justify-between">{s.username}{s.username && <Iconner Icon={Copy} func={() => handleCopy(s.username)} />}</span>
+
+              <strong className="text-right">Password:</strong>
+              <span className="flex items-center justify-between">{s.password}{s.password && <Iconner Icon={Copy} func={() => handleCopy(s.password!)} />}</span>
             </div>
           </div>
         ))}

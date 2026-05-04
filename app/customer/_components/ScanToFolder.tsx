@@ -33,23 +33,18 @@ const ScanToFolderInfo = ({ scan2e, cid }: Props) => {
               <Iconner href={`/customer/${cid}/scan-to-folder/${s.id}`} Icon={Pencil} />
               <ConfirmDelete onConfirm={() => handleDelete(s.id)} />
             </div>
-            <div className="p-4">
-            <p>
-              <strong>hostname:</strong> {s.hostname}
-              {s.hostname && <Iconner Icon={Copy} func={() => handleCopy(s.hostname)} />}
-            </p>
-            <p>
-              <strong>folder:</strong> {s.folder}
-              {s.folder && <Iconner Icon={Copy} func={() => handleCopy(s.folder!)} />}
-            </p>
-            <p>
-              <strong>username:</strong> {s.username}
-              {s.username && <Iconner Icon={Copy} func={() => handleCopy(s.username)} />}
-            </p>
-            <p>
-              <strong>password:</strong> {s.password}
-              {s.password && <Iconner Icon={Copy} func={() => handleCopy(s.password)} />}
-            </p>
+            <div className="p-4 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 items-baseline">
+              <strong className="text-right">Hostname:</strong>
+              <span className="flex items-center justify-between">{s.hostname}{s.hostname && <Iconner Icon={Copy} func={() => handleCopy(s.hostname)} />}</span>
+
+              <strong className="text-right">Folder:</strong>
+              <span className="flex items-center justify-between">{s.folder}{s.folder && <Iconner Icon={Copy} func={() => handleCopy(s.folder!)} />}</span>
+
+              <strong className="text-right">Username:</strong>
+              <span className="flex items-center justify-between">{s.username}{s.username && <Iconner Icon={Copy} func={() => handleCopy(s.username)} />}</span>
+
+              <strong className="text-right">Password:</strong>
+              <span className="flex items-center justify-between">{s.password}{s.password && <Iconner Icon={Copy} func={() => handleCopy(s.password)} />}</span>
             </div>
           </div>
         ))}
