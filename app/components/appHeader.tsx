@@ -3,7 +3,7 @@
 import { Container, Flex } from '@radix-ui/themes'
 import classnames from 'classnames'
 // import { useSession } from 'next-auth/react'
-import NextLink from 'next/link'
+import { default as Link, default as NextLink } from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Server } from '.'
@@ -79,17 +79,15 @@ const NavLinks = ({ isOpen, setIsOpen }: OpenProp) => {
 
   const colourLink = (link: string) =>
     classnames({
-      'text-zinc-900 bg-gray-300 ': link === currentPath,
+      'text-violet-900 bg-violet-300 ': link === currentPath,
       'text-zinc-500 ': link !== currentPath,
-      'hover:text-zinc-900 transition-colors  p-2 w-full flex justify-center  md:w-max bg-gray-200 hover:bg-gray-500 border-black': true,
+      'hover:text-zinc-900 transition-colors  p-2 w-full flex justify-center  md:w-max bg-violet-200 hover:bg-violet-500 border-black': true,
     })
 
   const links = [
     // { label: 'home', url: '/' },
-    { label: 'Journals', url: '/journals' },
-    { label: 'Password', url: '/password' },
+    { label: 'Logs', url: '/logs' },
     // { label: 'Contact', url: '/contact' },
-    { label: 'JS Playground', url: '/jsPlayground' },
   ]
 
   return (
@@ -105,9 +103,9 @@ const NavLinks = ({ isOpen, setIsOpen }: OpenProp) => {
       top="40px"
       left="0"
       width={{ initial: '100%', sm: 'auto' }}
-      className="bg-gray-200 z-50 shadow-lg sm:shadow-none"
+      className="bg-violet-200 z-50 shadow-lg sm:shadow-none"
     >
-      {/* {links.map(link => (
+      {links.map(link => (
         <Link
           className={colourLink(link.url)}
           href={link.url}
@@ -116,7 +114,7 @@ const NavLinks = ({ isOpen, setIsOpen }: OpenProp) => {
         >
           {link.label}
         </Link>
-      ))} */}
+      ))}
       {/* {status === 'authenticated' && session.user!.email! === 'post@nazs.net' && (
         <Link href="/Enquiries" className={colourLink('/Enquiries')}>
           Enquiries

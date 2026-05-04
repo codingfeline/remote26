@@ -23,6 +23,7 @@ export interface ParamProps {
     sid?: string
     did?: string
     dsid?: string
+    ssid?: string
     steid?: string
     stfid?: string
   }> // * making this a Promise to await below (await params)
@@ -46,7 +47,7 @@ const page = async ({ params }: ParamProps) => {
     <MainPage>
       <div className="grid md:grid-cols-[250px_1fr] grid-cols-1 ">
         <div className="md:border-r overflow-y-auto bg-gray-100 p-2 md:sticky md:top-0 md:max-h-screen">
-          <CustomerList requireSearch={true} />
+          <CustomerList />
         </div>
         <div className=" md:p-2 overflow-y-auto min-h-0 ">
           {/* {JSON.stringify(customer)} */}
@@ -115,6 +116,33 @@ const page = async ({ params }: ParamProps) => {
               label="Add Scan To Folder"
               url={`/customer/${cid}/scan-to-folder/new`}
             />
+            {customer.logs.length > 0 && (
+              <>
+                <hr className="border-2 border-gray-300  mt-10" />
+                <section className="compo">
+                  <h2 className="text-xl font-semibold mb-3 text-gray-500">Logs</h2>
+                  <div className="space-y-2">
+                    {[...customer.logs]
+                      .sort(
+                        (a, b) =>
+                          new Date(b.timestamp).getTime() -
+                          new Date(a.timestamp).getTime(),
+                      )
+                      .map(log => (
+                        <div
+                          key={log.id}
+                          className="border border-violet-400 rounded-lg p-3 shadow-sm"
+                        >
+                          <p className="text-sm text-gray-500 mb-1">
+                            {new Date(log.timestamp).toLocaleString()}
+                          </p>
+                          <p className="text-gray-800">{log.message}</p>
+                        </div>
+                      ))}
+                  </div>
+                </section>
+              </>
+            )}
           </div>
         </div>
       </div>
