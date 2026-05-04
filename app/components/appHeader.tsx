@@ -6,6 +6,7 @@ import classnames from 'classnames'
 import { default as Link, default as NextLink } from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { AiOutlineHome as Home } from 'react-icons/ai'
 import { Server } from '.'
 import Reveal from './Reveal'
 
@@ -33,38 +34,44 @@ const AppHeader = () => {
 
   return (
     <nav className="borber bg-violet-200 justify-between h-full relative z-50 border-black">
-      <Reveal direction="left">
-        <Container>
-          <Flex justify="between">
-            <Flex
-              justify="between"
-              gapX="0"
-              align="center"
-              width={{ initial: '100%', sm: 'auto' }}
-              display="flex"
-              direction={{ initial: 'column', sm: 'row' }}
-            >
-              <NextLink href="/">
-                <div className="w-full flex justify-center p-2 cursor-pointer hover:text-violet-700">
-                  <Server size="24px" />
+      <div className="relative z-50">
+        <Reveal direction="left">
+          <Container>
+            <div className="flex justify-between">
+              <div className="flex flex-col sm:flex-row items-center justify-between w-full sm:w-auto">
+                {/* Mobile: home link + menu toggle */}
+                <div className="flex items-center justify-between w-full px-2 sm:hidden">
+                  <NextLink href="/">
+                    <div className="p-2 cursor-pointer hover:text-violet-700">
+                      <Home size="24px" />
+                    </div>
+                  </NextLink>
+                  <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="p-2 cursor-pointer hover:text-violet-700"
+                  >
+                    <Server size="24px" />
+                  </button>
                 </div>
-              </NextLink>
-              <NavLinks isOpen={isOpen} setIsOpen={setIsOpen} />
-            </Flex>
-            {/* <AuthStatus /> */}
-          </Flex>
-        </Container>
-        {isOpen && (
-          <div
-            onClick={() => setIsOpen(false)} // Close menu when clicking the dark area
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[-1] md:hidden"
-            // inset-0 makes it full screen
-            // bg-black/50 makes it 50% dark
-            // z-[-1] puts it behind the NavLinks but stays in front of page content
-            // sm:hidden ensures it doesn't show on desktop
-          />
-        )}
-      </Reveal>
+                {/* Desktop: server icon as home link */}
+                <NextLink href="/" className="hidden sm:block">
+                  <div className="p-2 cursor-pointer hover:text-violet-700">
+                    <Server size="24px" />
+                  </div>
+                </NextLink>
+                <NavLinks isOpen={isOpen} setIsOpen={setIsOpen} />
+              </div>
+              {/* <AuthStatus /> */}
+            </div>
+          </Container>
+        </Reveal>
+      </div>
+      {isOpen && (
+        <div
+          onClick={() => setIsOpen(false)}
+          className="fixed inset-0 bg-black/50 z-40 sm:hidden"
+        />
+      )}
     </nav>
   )
 }
@@ -91,19 +98,8 @@ const NavLinks = ({ isOpen, setIsOpen }: OpenProp) => {
   ]
 
   return (
-    <Flex
-      // justify="center"
-      // gap="0"
-      // p="0"
-      align="center"
-      direction={{ initial: 'column', sm: 'row' }}
-      display={{ initial: isOpen ? 'flex' : 'none', sm: 'flex' }}
-      // display={isVertical && isOpen ? 'flex' : 'none'}
-      position={{ initial: 'absolute', sm: 'static' }}
-      top="40px"
-      left="0"
-      width={{ initial: '100%', sm: 'auto' }}
-      className="bg-violet-200 z-50 shadow-lg sm:shadow-none"
+    <div
+      className={`${isOpen ? 'flex' : 'hidden'} sm:flex flex-col sm:flex-row items-center absolute sm:static top-10 left-0 w-full sm:w-auto bg-violet-200 z-50 shadow-lg sm:shadow-none`}
     >
       {links.map(link => (
         <Link
@@ -120,7 +116,7 @@ const NavLinks = ({ isOpen, setIsOpen }: OpenProp) => {
           Enquiries
         </Link>
       )} */}
-    </Flex>
+    </div>
   )
 }
 
