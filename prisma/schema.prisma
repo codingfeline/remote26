@@ -92,6 +92,7 @@ model Customer {
   deviceSetup    DeviceSetup[]
   scanToEmail    ScanToEmail[]
   scanToFolder   ScanToFolder[]
+  logs           Log[]
 }
 
 type MethodInfo {
@@ -154,4 +155,10 @@ type ScanToFolder {
   folder   String
   username String
   password String
+}
+
+type Log {
+  id        String   @map("_id") @db.ObjectId
+  message   String
+  timestamp DateTime @default(now())
 }
