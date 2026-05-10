@@ -20,6 +20,8 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
+    const existing = customer.contact.find(c => c.id === contactId)
+
     // update method info
     const updatedContact = customer.contact.map((contact) => {
       if (contact.id === contactId) {
@@ -31,19 +33,25 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
       return contact;
     })
 
+    const changes = (['name', 'email', 'tel'] as const)
+      .filter(k => (existing?.[k] ?? '') !== (data[k] ?? ''))
+      .map(k => `${k}: ${existing?.[k] || '—'} → ${data[k] || '—'}`)
+
     // save entire array
     await prisma.customer.update({
       where: { id: customerId },
       data: {
         contact: updatedContact,
-        logs: [
-          ...(customer.logs ?? []),
-          {
-            id: new ObjectId().toString(),
-            message: `Updated contact — name: ${data.name || '—'}, email: ${data.email || '—'}, tel: ${data.tel || '—'}`,
-            timestamp: new Date(),
-          },
-        ],
+        logs: changes.length
+          ? [
+              ...(customer.logs ?? []),
+              {
+                id: new ObjectId().toString(),
+                message: `Updated contact — ${changes.join(', ')}`,
+                timestamp: new Date(),
+              },
+            ]
+          : (customer.logs ?? []),
       },
     });
 

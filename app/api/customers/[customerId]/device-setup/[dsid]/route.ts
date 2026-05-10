@@ -14,23 +14,30 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
+    const existing = customer.deviceSetup.find(e => e.id === dsid)
     const updated = customer.deviceSetup.map(entry => {
       if (entry.id === dsid) return { ...entry, ...data }
       return entry
     })
 
+    const changes = (['comment', 'screenshot', 'path'] as const)
+      .filter(k => (existing?.[k] ?? '') !== (data[k] ?? ''))
+      .map(k => `${k}: ${existing?.[k] || '—'} → ${data[k] || '—'}`)
+
     await prisma.customer.update({
       where: { id: customerId },
       data: {
         deviceSetup: updated,
-        logs: [
-          ...(customer.logs ?? []),
-          {
-            id: new ObjectId().toString(),
-            message: `Updated device setup — comment: ${data.comment || '—'}, screenshot: ${data.screenshot || '—'}, path: ${data.path || '—'}`,
-            timestamp: new Date(),
-          },
-        ],
+        logs: changes.length
+          ? [
+              ...(customer.logs ?? []),
+              {
+                id: new ObjectId().toString(),
+                message: `Updated device setup — ${changes.join(', ')}`,
+                timestamp: new Date(),
+              },
+            ]
+          : (customer.logs ?? []),
       },
     });
 

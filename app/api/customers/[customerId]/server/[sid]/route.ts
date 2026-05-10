@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse, prisma } from '@/app/api';
+import { NextRequest, NextResponse, ObjectId, prisma } from '@/app/api';
 import { CustomerAllProps, ServerSchema } from '@/app/schema';
 import { z } from 'zod';
 
@@ -20,6 +20,8 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
+    const existing = customer.server.find(s => s.id === sid)
+
     // update method info
     const updatedServer = customer.server.map((server) => {
       if (server.id === sid) {
@@ -31,13 +33,25 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
       return server;
     })
 
-    console.log(updatedServer)
+    const changes = (['name', 'ip', 'username', 'password', 'notes'] as const)
+      .filter(k => (existing?.[k] ?? '') !== (data[k] ?? ''))
+      .map(k => `${k}: ${existing?.[k] || '—'} → ${data[k] || '—'}`)
 
     // save entire array
     await prisma.customer.update({
       where: { id: customerId },
       data: {
         server: updatedServer,
+        logs: changes.length
+          ? [
+              ...(customer.logs ?? []),
+              {
+                id: new ObjectId().toString(),
+                message: `Updated server — ${changes.join(', ')}`,
+                timestamp: new Date(),
+              },
+            ]
+          : (customer.logs ?? []),
       },
     });
 

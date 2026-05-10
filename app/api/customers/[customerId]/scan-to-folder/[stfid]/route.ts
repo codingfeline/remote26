@@ -14,23 +14,30 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
+    const existing = customer.scanToFolder.find(e => e.id === stfid)
     const updated = customer.scanToFolder.map(entry => {
       if (entry.id === stfid) return { ...entry, ...data }
       return entry
     })
 
+    const changes = (['hostname', 'folder', 'username', 'password'] as const)
+      .filter(k => (existing?.[k] ?? '') !== (data[k] ?? ''))
+      .map(k => `${k}: ${existing?.[k] || '—'} → ${data[k] || '—'}`)
+
     await prisma.customer.update({
       where: { id: customerId },
       data: {
         scanToFolder: updated,
-        logs: [
-          ...(customer.logs ?? []),
-          {
-            id: new ObjectId().toString(),
-            message: `Updated scan to folder — hostname: ${data.hostname || '—'}, folder: ${data.folder || '—'}, username: ${data.username || '—'}, password: ${data.password || '—'}`,
-            timestamp: new Date(),
-          },
-        ],
+        logs: changes.length
+          ? [
+              ...(customer.logs ?? []),
+              {
+                id: new ObjectId().toString(),
+                message: `Updated scan to folder — ${changes.join(', ')}`,
+                timestamp: new Date(),
+              },
+            ]
+          : (customer.logs ?? []),
       },
     });
 

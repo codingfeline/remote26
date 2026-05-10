@@ -20,6 +20,8 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
+    const existing = customer.methodInfo.find(m => m.id === methodId)
+
     // update method info
     const updatedMethod = customer.methodInfo.map((method) => {
       if (method.id === methodId) {
@@ -31,19 +33,25 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
       return method;
     })
 
+    const changes = (['methodName', 'url', 'username', 'password', 'notes'] as const)
+      .filter(k => (existing?.[k] ?? '') !== (data[k] ?? ''))
+      .map(k => `${k}: ${existing?.[k] || '—'} → ${data[k] || '—'}`)
+
     // save entire array
     await prisma.customer.update({
       where: { id: customerId },
       data: {
         methodInfo: updatedMethod,
-        logs: [
-          ...(customer.logs ?? []),
-          {
-            id: new ObjectId().toString(),
-            message: `Updated method — name: ${data.methodName || '—'}, url: ${data.url || '—'}, username: ${data.username || '—'}, password: ${data.password || '—'}, notes: ${data.notes || '—'}`,
-            timestamp: new Date(),
-          },
-        ],
+        logs: changes.length
+          ? [
+              ...(customer.logs ?? []),
+              {
+                id: new ObjectId().toString(),
+                message: `Updated method — ${changes.join(', ')}`,
+                timestamp: new Date(),
+              },
+            ]
+          : (customer.logs ?? []),
       },
     });
 
