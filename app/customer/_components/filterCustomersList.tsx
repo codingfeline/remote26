@@ -87,11 +87,11 @@ const FilterCustomersList = ({ names, requireSearch, horizontal }: Prop) => {
               )}
             </TextField.Root>
           </div>
-          <div className="flex flex-wrap gap-2 md:flex-col md:flex-nowrap md:gap-0">
+          <div className="flex flex-wrap gap-2">
             {filtered.map(t => {
               const isActive = pathname === `/customer/${t.id}`
               return (
-                <div key={t.id} className="flex items-center md:my-1">
+                <div key={t.id} className="flex items-center">
                   <ButtonIcon href={`/customer/${t.id}`} active={isActive}>
                     {t.name}
                   </ButtonIcon>

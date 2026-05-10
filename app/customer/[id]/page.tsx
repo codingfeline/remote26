@@ -2,6 +2,7 @@ import { BackToTop, MyButton, Pencil } from '@/app/components'
 import Iconner from '@/app/components/Iconner'
 import MainPage from '@/app/components/MainPage'
 import CustomerList from '@/app/customer/_components/CustomerFilterList'
+import CustomerSidebar from '@/app/customer/_components/CustomerSidebar'
 import prisma from '@/lib/prisma'
 import type { Metadata } from 'next'
 
@@ -47,7 +48,9 @@ const page = async ({ params }: ParamProps) => {
     <MainPage>
       <div className="grid md:grid-cols-[250px_1fr] grid-cols-1 ">
         <div className="md:border-r overflow-y-auto bg-gray-100 p-2 md:sticky md:top-0 md:max-h-screen">
-          <CustomerList />
+          <CustomerSidebar>
+            <CustomerList />
+          </CustomerSidebar>
         </div>
         <div className=" md:p-2 overflow-y-auto min-h-0 ">
           {/* {JSON.stringify(customer)} */}
