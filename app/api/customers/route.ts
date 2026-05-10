@@ -1,5 +1,6 @@
 import { CustomerSchema } from '@/app/schema';
 import prisma from '@/lib/prisma';
+import { ObjectId } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -30,6 +31,13 @@ export async function POST(req: NextRequest) {
         solution: data.solution,
         date: new Date(),
         version: 0,
+        logs: [
+          {
+            id: new ObjectId().toString(),
+            message: `Created customer — name: ${data.name}, solution: ${data.solution}`,
+            timestamp: new Date(),
+          },
+        ],
       }
     })
 

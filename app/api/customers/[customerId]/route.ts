@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse, prisma } from '@/app/api';
+import { NextRequest, NextResponse, ObjectId, prisma } from '@/app/api';
 import { CustIDProp, CustomerSchema } from '@/app/schema';
 import { z } from 'zod';
 
@@ -13,9 +13,26 @@ export async function PATCH(req: NextRequest, { params }: CustIDProp) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
+    const changes = (['name', 'solution'] as const)
+      .filter(k => (customer[k] ?? '') !== (data[k] ?? ''))
+      .map(k => `${k}: ${customer[k] || '—'} → ${data[k] || '—'}`)
+
     const updated = await prisma.customer.update({
       where: { id: customerId },
-      data: { name: data.name, solution: data.solution },
+      data: {
+        name: data.name,
+        solution: data.solution,
+        logs: changes.length
+          ? [
+              ...(customer.logs ?? []),
+              {
+                id: new ObjectId().toString(),
+                message: `Updated customer — ${changes.join(', ')}`,
+                timestamp: new Date(),
+              },
+            ]
+          : (customer.logs ?? []),
+      },
     });
 
     return NextResponse.json(updated);
