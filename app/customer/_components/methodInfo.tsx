@@ -41,13 +41,13 @@ const MethodInfo = ({ method, cid }: Props) => {
                 <span>{m.methodName}</span>
 
                 <strong className="text-right">URL:</strong>
-                <span className="flex items-center justify-between">{m.url}<Iconner Icon={Copy} func={() => handleCopy(m.url)} /></span>
+                <span className="flex items-center justify-between">{m.url}{m.url && <Iconner Icon={Copy} func={() => handleCopy(m.url)} />}</span>
 
                 <strong className="text-right">Username:</strong>
-                <span className="flex items-center justify-between">{m.username}<Iconner Icon={Copy} func={() => handleCopy(m.username)} /></span>
+                <span className="flex items-center justify-between">{m.username}{m.username && <Iconner Icon={Copy} func={() => handleCopy(m.username)} />}</span>
 
                 <strong className="text-right">Password:</strong>
-                <span className="flex items-center justify-between">{m.password}<Iconner Icon={Copy} func={() => handleCopy(m.password)} /></span>
+                <span className="flex items-center justify-between">{m.password}{m.password && <Iconner Icon={Copy} func={() => handleCopy(m.password)} />}</span>
 
                 <strong className="text-right">Notes:</strong>
                 <span className="whitespace-pre-wrap">{m.notes}</span>
