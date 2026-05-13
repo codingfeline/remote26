@@ -73,17 +73,24 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
-    const deleted = customer.methodInfo.find(m => m.id === methodId)
+    const archived = customer.methodInfo.find(m => m.id === methodId)
+    if (!archived) {
+      return NextResponse.json({ error: 'Method not found' }, { status: 404 });
+    }
+
+    const updated = customer.methodInfo.map(m =>
+      m.id === methodId ? { ...m, archivedAt: new Date() } : m,
+    )
 
     await prisma.customer.update({
       where: { id: customerId },
       data: {
-        methodInfo: customer.methodInfo.filter(m => m.id !== methodId),
+        methodInfo: updated,
         logs: [
           ...(customer.logs ?? []),
           {
             id: new ObjectId().toString(),
-            message: `Deleted method — name: ${deleted?.methodName || '—'}, url: ${deleted?.url || '—'}, username: ${deleted?.username || '—'}, password: ${deleted?.password || '—'}, notes: ${deleted?.notes || '—'}`,
+            message: `Archived method — name: ${archived.methodName || '—'}, url: ${archived.url || '—'}, username: ${archived.username || '—'}, password: ${archived.password || '—'}, notes: ${archived.notes || '—'}`,
             timestamp: new Date(),
           },
         ],
@@ -92,6 +99,6 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
 
     return NextResponse.json({ success: true });
   } catch {
-    return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to archive' }, { status: 500 });
   }
 }

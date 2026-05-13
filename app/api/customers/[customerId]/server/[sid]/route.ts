@@ -73,13 +73,32 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
+    const archived = customer.server.find(s => s.id === sid)
+    if (!archived) {
+      return NextResponse.json({ error: 'Server not found' }, { status: 404 });
+    }
+
+    const updated = customer.server.map(s =>
+      s.id === sid ? { ...s, archivedAt: new Date() } : s,
+    )
+
     await prisma.customer.update({
       where: { id: customerId },
-      data: { server: customer.server.filter(s => s.id !== sid) },
+      data: {
+        server: updated,
+        logs: [
+          ...(customer.logs ?? []),
+          {
+            id: new ObjectId().toString(),
+            message: `Archived server — name: ${archived.name || '—'}, ip: ${archived.ip || '—'}, username: ${archived.username || '—'}, password: ${archived.password || '—'}, notes: ${archived.notes || '—'}`,
+            timestamp: new Date(),
+          },
+        ],
+      },
     });
 
     return NextResponse.json({ success: true });
   } catch {
-    return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to archive' }, { status: 500 });
   }
 }

@@ -59,17 +59,24 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
-    const deleted = customer.devicePassword.find(d => d.id === did)
+    const archived = customer.devicePassword.find(d => d.id === did)
+    if (!archived) {
+      return NextResponse.json({ error: 'Device not found' }, { status: 404 });
+    }
+
+    const updated = customer.devicePassword.map(d =>
+      d.id === did ? { ...d, archivedAt: new Date() } : d,
+    )
 
     await prisma.customer.update({
       where: { id: customerId },
       data: {
-        devicePassword: customer.devicePassword.filter(d => d.id !== did),
+        devicePassword: updated,
         logs: [
           ...(customer.logs ?? []),
           {
             id: new ObjectId().toString(),
-            message: `Deleted device — make: ${deleted?.make || '—'}, username: ${deleted?.username || '—'}, password: ${deleted?.password || '—'}`,
+            message: `Archived device — make: ${archived.make || '—'}, username: ${archived.username || '—'}, password: ${archived.password || '—'}`,
             timestamp: new Date(),
           },
         ],
@@ -78,6 +85,6 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
 
     return NextResponse.json({ success: true });
   } catch {
-    return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to archive' }, { status: 500 });
   }
 }

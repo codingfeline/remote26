@@ -73,17 +73,24 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
-    const deleted = customer.contact.find(c => c.id === contactId)
+    const archived = customer.contact.find(c => c.id === contactId)
+    if (!archived) {
+      return NextResponse.json({ error: 'Contact not found' }, { status: 404 });
+    }
+
+    const updatedContact = customer.contact.map(c =>
+      c.id === contactId ? { ...c, archivedAt: new Date() } : c,
+    )
 
     await prisma.customer.update({
       where: { id: customerId },
       data: {
-        contact: customer.contact.filter(c => c.id !== contactId),
+        contact: updatedContact,
         logs: [
           ...(customer.logs ?? []),
           {
             id: new ObjectId().toString(),
-            message: `Deleted contact — name: ${deleted?.name || '—'}, email: ${deleted?.email || '—'}, tel: ${deleted?.tel || '—'}`,
+            message: `Archived contact — name: ${archived.name || '—'}, email: ${archived.email || '—'}, tel: ${archived.tel || '—'}`,
             timestamp: new Date(),
           },
         ],
@@ -92,6 +99,6 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
 
     return NextResponse.json({ success: true });
   } catch {
-    return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to archive' }, { status: 500 });
   }
 }

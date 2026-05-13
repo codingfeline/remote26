@@ -59,17 +59,24 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
-    const deleted = customer.scanToEmail.find(e => e.id === steid)
+    const archived = customer.scanToEmail.find(e => e.id === steid)
+    if (!archived) {
+      return NextResponse.json({ error: 'Scan to email not found' }, { status: 404 });
+    }
+
+    const updated = customer.scanToEmail.map(e =>
+      e.id === steid ? { ...e, archivedAt: new Date() } : e,
+    )
 
     await prisma.customer.update({
       where: { id: customerId },
       data: {
-        scanToEmail: customer.scanToEmail.filter(e => e.id !== steid),
+        scanToEmail: updated,
         logs: [
           ...(customer.logs ?? []),
           {
             id: new ObjectId().toString(),
-            message: `Deleted scan to email — hostname: ${deleted?.hostname || '—'}, username: ${deleted?.username || '—'}, password: ${deleted?.password || '—'}, port: ${deleted?.port || '—'}`,
+            message: `Archived scan to email — hostname: ${archived.hostname || '—'}, username: ${archived.username || '—'}, password: ${archived.password || '—'}, port: ${archived.port || '—'}`,
             timestamp: new Date(),
           },
         ],
@@ -78,6 +85,6 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
 
     return NextResponse.json({ success: true });
   } catch {
-    return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to archive' }, { status: 500 });
   }
 }

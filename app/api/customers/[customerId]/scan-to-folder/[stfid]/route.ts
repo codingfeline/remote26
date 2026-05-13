@@ -59,17 +59,24 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
-    const deleted = customer.scanToFolder.find(e => e.id === stfid)
+    const archived = customer.scanToFolder.find(e => e.id === stfid)
+    if (!archived) {
+      return NextResponse.json({ error: 'Scan to folder not found' }, { status: 404 });
+    }
+
+    const updated = customer.scanToFolder.map(e =>
+      e.id === stfid ? { ...e, archivedAt: new Date() } : e,
+    )
 
     await prisma.customer.update({
       where: { id: customerId },
       data: {
-        scanToFolder: customer.scanToFolder.filter(e => e.id !== stfid),
+        scanToFolder: updated,
         logs: [
           ...(customer.logs ?? []),
           {
             id: new ObjectId().toString(),
-            message: `Deleted scan to folder — hostname: ${deleted?.hostname || '—'}, folder: ${deleted?.folder || '—'}, username: ${deleted?.username || '—'}, password: ${deleted?.password || '—'}`,
+            message: `Archived scan to folder — hostname: ${archived.hostname || '—'}, folder: ${archived.folder || '—'}, username: ${archived.username || '—'}, password: ${archived.password || '—'}`,
             timestamp: new Date(),
           },
         ],
@@ -78,6 +85,6 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
 
     return NextResponse.json({ success: true });
   } catch {
-    return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to archive' }, { status: 500 });
   }
 }
