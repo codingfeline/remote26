@@ -96,65 +96,71 @@ model Customer {
 }
 
 type MethodInfo {
-  id         String @map("_id") @db.ObjectId
+  id         String    @map("_id") @db.ObjectId
   methodName String
   url        String
   username   String
   password   String
   notes      String
+  archivedAt DateTime?
 }
 
 type Contact {
-  id    String @map("_id") @db.ObjectId
-  name  String
-  tel   String
-  email String
+  id         String    @map("_id") @db.ObjectId
+  name       String
+  tel        String
+  email      String
+  archivedAt DateTime?
 }
 
 type Server {
-  id       String  @map("_id") @db.ObjectId
-  name     String
-  username String
-  password String
-  ip       String
-  notes    String?
+  id         String    @map("_id") @db.ObjectId
+  name       String
+  username   String
+  password   String
+  ip         String
+  notes      String?
+  archivedAt DateTime?
 }
 
 type DevicePassword {
-  id       String @map("_id") @db.ObjectId
-  make     String
-  username String
-  password String
+  id         String    @map("_id") @db.ObjectId
+  make       String
+  username   String
+  password   String
+  archivedAt DateTime?
 }
 
 type SolutionSetup {
-  id         String @map("_id") @db.ObjectId
+  id         String    @map("_id") @db.ObjectId
   comment    String
   screenshot String
-  path       String
+  archivedAt DateTime?
 }
 
 type DeviceSetup {
-  id         String @map("_id") @db.ObjectId
+  id         String    @map("_id") @db.ObjectId
   comment    String
   screenshot String
-  path       String
+  archivedAt DateTime?
 }
 
 type ScanToEmail {
-  id       String @map("_id") @db.ObjectId
-  hostname String
-  username String
-  password String
-  port     String
+  id         String    @map("_id") @db.ObjectId
+  hostname   String
+  username   String
+  password   String
+  port       String
+  archivedAt DateTime?
 }
 
 type ScanToFolder {
-  id       String @map("_id") @db.ObjectId
-  hostname String
-  folder   String
-  username String
-  password String
+  id         String    @map("_id") @db.ObjectId
+  hostname   String
+  folder     String
+  username   String
+  password   String
+  archivedAt DateTime?
 }
 
 type Log {

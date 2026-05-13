@@ -30,7 +30,6 @@ export const ServerSchema = z.object({
 export const SolutionSchema = z.object({
   comment: z.string().optional(),
   screenshot: z.string().optional(),
-  path: z.string().optional(),
 });
 
 export const DevicePasswordSchema = z.object({
@@ -42,7 +41,6 @@ export const DevicePasswordSchema = z.object({
 export const DeviceSetupSchema = z.object({
   comment: z.string().optional(),
   screenshot: z.string().optional(),
-  path: z.string().optional(),
 });
 
 export const ScanToEmailSchema = z.object({
