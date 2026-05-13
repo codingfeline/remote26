@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse, ObjectId, prisma } from '@/app/api';
 import { CustomerAllProps, DeviceSetupSchema } from '@/app/schema';
+import { del } from '@vercel/blob';
 import { z } from 'zod';
 
 export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
@@ -20,7 +21,13 @@ export async function PATCH(req: NextRequest, { params }: CustomerAllProps) {
       return entry
     })
 
-    const changes = (['comment', 'screenshot', 'path'] as const)
+    if (existing?.screenshot && existing.screenshot !== data.screenshot) {
+      del(existing.screenshot).catch(err =>
+        console.error('Failed to delete replaced screenshot:', err),
+      )
+    }
+
+    const changes = (['comment', 'screenshot'] as const)
       .filter(k => (existing?.[k] ?? '') !== (data[k] ?? ''))
       .map(k => `${k}: ${existing?.[k] || '—'} → ${data[k] || '—'}`)
 
@@ -59,17 +66,24 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
-    const deleted = customer.deviceSetup.find(e => e.id === dsid)
+    const archived = customer.deviceSetup.find(e => e.id === dsid)
+    if (!archived) {
+      return NextResponse.json({ error: 'Device setup not found' }, { status: 404 });
+    }
+
+    const updated = customer.deviceSetup.map(e =>
+      e.id === dsid ? { ...e, archivedAt: new Date() } : e,
+    )
 
     await prisma.customer.update({
       where: { id: customerId },
       data: {
-        deviceSetup: customer.deviceSetup.filter(e => e.id !== dsid),
+        deviceSetup: updated,
         logs: [
           ...(customer.logs ?? []),
           {
             id: new ObjectId().toString(),
-            message: `Deleted device setup — comment: ${deleted?.comment || '—'}, screenshot: ${deleted?.screenshot || '—'}, path: ${deleted?.path || '—'}`,
+            message: `Archived device setup — comment: ${archived.comment || '—'}, screenshot: ${archived.screenshot || '—'}`,
             timestamp: new Date(),
           },
         ],
@@ -78,6 +92,6 @@ export async function DELETE(_req: NextRequest, { params }: CustomerAllProps) {
 
     return NextResponse.json({ success: true });
   } catch {
-    return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to archive' }, { status: 500 });
   }
 }

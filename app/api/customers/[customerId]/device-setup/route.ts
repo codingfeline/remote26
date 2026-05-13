@@ -18,7 +18,6 @@ export async function POST(req: NextRequest, { params }: CustomerAllProps) {
       id: new ObjectId().toString(),
       comment: data.comment ?? '',
       screenshot: data.screenshot ?? '',
-      path: data.path ?? '',
     }
 
     await prisma.customer.update({
@@ -29,7 +28,7 @@ export async function POST(req: NextRequest, { params }: CustomerAllProps) {
           ...(customer.logs ?? []),
           {
             id: new ObjectId().toString(),
-            message: `Added device setup — comment: ${newEntry.comment || '—'}, screenshot: ${newEntry.screenshot || '—'}, path: ${newEntry.path || '—'}`,
+            message: `Added device setup — comment: ${newEntry.comment || '—'}, screenshot: ${newEntry.screenshot || '—'}`,
             timestamp: new Date(),
           },
         ],
