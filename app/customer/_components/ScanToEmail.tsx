@@ -31,7 +31,12 @@ const ScanToEmailInfo = ({ scan2e, cid }: Props) => {
           <div key={s.id} className="border border-violet-400 rounded-t-lg shadow-sm overflow-hidden">
             <div className="flex justify-between bg-violet-200 px-4 py-2">
               <Iconner href={`/customer/${cid}/scan-to-email/${s.id}`} Icon={Pencil} />
-              <ConfirmDelete onConfirm={() => handleDelete(s.id)} />
+              <ConfirmDelete
+                onConfirm={() => handleDelete(s.id)}
+                title="Archive scan to email"
+                description="This entry will be moved to the archived list. You can restore it later."
+                confirmLabel="Archive"
+              />
             </div>
             <div className="p-4 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 items-baseline">
               <strong className="text-right">Hostname:</strong>

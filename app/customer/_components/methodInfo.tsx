@@ -34,7 +34,12 @@ const MethodInfo = ({ method, cid }: Props) => {
             <div key={m.id} className="border border-violet-400 rounded-t-lg shadow-sm overflow-hidden">
               <div className="flex justify-between bg-violet-200 px-4 py-2">
                 <Iconner href={link} Icon={Pencil} />
-                <ConfirmDelete onConfirm={() => handleDelete(m.id)} />
+                <ConfirmDelete
+                  onConfirm={() => handleDelete(m.id)}
+                  title="Archive method"
+                  description="This method will be moved to the archived list. You can restore it later."
+                  confirmLabel="Archive"
+                />
               </div>
               <div className="p-4 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 items-baseline">
                 <strong className="text-right">Name:</strong>
