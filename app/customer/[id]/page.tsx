@@ -7,6 +7,14 @@ import prisma from '@/lib/prisma'
 import type { Metadata } from 'next'
 
 import { notFound } from 'next/navigation'
+import ArchivedContacts from '../_components/ArchivedContacts'
+import ArchivedDevices from '../_components/ArchivedDevices'
+import ArchivedDeviceSetups from '../_components/ArchivedDeviceSetups'
+import ArchivedMethods from '../_components/ArchivedMethods'
+import ArchivedScanToEmail from '../_components/ArchivedScanToEmail'
+import ArchivedScanToFolder from '../_components/ArchivedScanToFolder'
+import ArchivedServers from '../_components/ArchivedServers'
+import ArchivedSolutionSetups from '../_components/ArchivedSolutionSetups'
 import Contact from '../_components/Contact'
 import DeviceInfo from '../_components/DeviceInfo'
 import DeviceSetupInfo from '../_components/DeviceSetupInfo'
@@ -42,7 +50,34 @@ const page = async ({ params }: ParamProps) => {
     where: { id: cid },
   })
   if (!customer) notFound()
-  const { methodInfo: method, contact, server, devicePassword: device } = customer
+
+  const activeMethods = customer.methodInfo.filter(m => !m.archivedAt)
+  const archivedMethods = customer.methodInfo.filter(m => m.archivedAt)
+  const activeContacts = customer.contact.filter(c => !c.archivedAt)
+  const archivedContacts = customer.contact.filter(c => c.archivedAt)
+  const activeServers = customer.server.filter(s => !s.archivedAt)
+  const archivedServers = customer.server.filter(s => s.archivedAt)
+  const activeDevices = customer.devicePassword.filter(d => !d.archivedAt)
+  const archivedDevices = customer.devicePassword.filter(d => d.archivedAt)
+  const activeDeviceSetups = customer.deviceSetup.filter(e => !e.archivedAt)
+  const archivedDeviceSetups = customer.deviceSetup.filter(e => e.archivedAt)
+  const activeSolutionSetups = customer.solutionSetup.filter(e => !e.archivedAt)
+  const archivedSolutionSetups = customer.solutionSetup.filter(e => e.archivedAt)
+  const activeScanToEmail = customer.scanToEmail.filter(e => !e.archivedAt)
+  const archivedScanToEmail = customer.scanToEmail.filter(e => e.archivedAt)
+  const activeScanToFolder = customer.scanToFolder.filter(e => !e.archivedAt)
+  const archivedScanToFolder = customer.scanToFolder.filter(e => e.archivedAt)
+
+  const hasArchived =
+    archivedMethods.length +
+      archivedContacts.length +
+      archivedServers.length +
+      archivedDevices.length +
+      archivedDeviceSetups.length +
+      archivedSolutionSetups.length +
+      archivedScanToEmail.length +
+      archivedScanToFolder.length >
+    0
 
   return (
     <MainPage>
@@ -67,25 +102,25 @@ const page = async ({ params }: ParamProps) => {
             </div>
             {/* {cid} */}
 
-            {method.length > 0 && <MethodInfo cid={cid} method={customer.methodInfo} />}
+            {activeMethods.length > 0 && <MethodInfo cid={cid} method={activeMethods} />}
             <MyButton secondary label="Add Method" url={`/customer/${cid}/method/new`} />
 
-            {contact.length > 0 && <Contact cid={cid} contact={customer.contact} />}
+            {activeContacts.length > 0 && <Contact cid={cid} contact={activeContacts} />}
             <MyButton
               secondary
               label="Add Contact"
               url={`/customer/${cid}/contact/new`}
             />
 
-            {server.length > 0 && <ServerInfo server={customer.server} cid={cid} />}
+            {activeServers.length > 0 && <ServerInfo server={activeServers} cid={cid} />}
             <MyButton secondary label="Add Server" url={`/customer/${cid}/server/new`} />
-            {device.length > 0 && (
-              <DeviceInfo devicePasswords={customer.devicePassword} cid={cid} />
+            {activeDevices.length > 0 && (
+              <DeviceInfo devicePasswords={activeDevices} cid={cid} />
             )}
             <MyButton secondary label="Add Device" url={`/customer/${cid}/device/new`} />
 
-            {customer.deviceSetup.length > 0 && (
-              <DeviceSetupInfo deviceSetup={customer.deviceSetup} cid={cid} />
+            {activeDeviceSetups.length > 0 && (
+              <DeviceSetupInfo deviceSetup={activeDeviceSetups} cid={cid} />
             )}
             <MyButton
               secondary
@@ -93,8 +128,8 @@ const page = async ({ params }: ParamProps) => {
               url={`/customer/${cid}/device-setup/new`}
             />
 
-            {customer.solutionSetup.length > 0 && (
-              <SolutionsInfo solution={customer.solutionSetup} cid={cid} />
+            {activeSolutionSetups.length > 0 && (
+              <SolutionsInfo solution={activeSolutionSetups} cid={cid} />
             )}
             <MyButton
               secondary
@@ -102,8 +137,8 @@ const page = async ({ params }: ParamProps) => {
               url={`/customer/${cid}/solution-setup/new`}
             />
 
-            {customer.scanToEmail.length > 0 && (
-              <ScanToEmailInfo scan2e={customer.scanToEmail} cid={cid} />
+            {activeScanToEmail.length > 0 && (
+              <ScanToEmailInfo scan2e={activeScanToEmail} cid={cid} />
             )}
             <MyButton
               secondary
@@ -111,14 +146,45 @@ const page = async ({ params }: ParamProps) => {
               url={`/customer/${cid}/scan-to-email/new`}
             />
 
-            {customer.scanToFolder.length > 0 && (
-              <ScanToFolderInfo scan2e={customer.scanToFolder} cid={cid} />
+            {activeScanToFolder.length > 0 && (
+              <ScanToFolderInfo scan2e={activeScanToFolder} cid={cid} />
             )}
             <MyButton
               secondary
               label="Add Scan To Folder"
               url={`/customer/${cid}/scan-to-folder/new`}
             />
+
+            {hasArchived && (
+              <>
+                <hr className="border-2 border-gray-300 mt-10" />
+                {archivedMethods.length > 0 && (
+                  <ArchivedMethods cid={cid} methods={archivedMethods} />
+                )}
+                {archivedContacts.length > 0 && (
+                  <ArchivedContacts cid={cid} contacts={archivedContacts} />
+                )}
+                {archivedServers.length > 0 && (
+                  <ArchivedServers cid={cid} servers={archivedServers} />
+                )}
+                {archivedDevices.length > 0 && (
+                  <ArchivedDevices cid={cid} devices={archivedDevices} />
+                )}
+                {archivedDeviceSetups.length > 0 && (
+                  <ArchivedDeviceSetups cid={cid} setups={archivedDeviceSetups} />
+                )}
+                {archivedSolutionSetups.length > 0 && (
+                  <ArchivedSolutionSetups cid={cid} setups={archivedSolutionSetups} />
+                )}
+                {archivedScanToEmail.length > 0 && (
+                  <ArchivedScanToEmail cid={cid} entries={archivedScanToEmail} />
+                )}
+                {archivedScanToFolder.length > 0 && (
+                  <ArchivedScanToFolder cid={cid} entries={archivedScanToFolder} />
+                )}
+              </>
+            )}
+
             {customer.logs.length > 0 && (
               <>
                 <hr className="border-2 border-gray-300  mt-10" />
